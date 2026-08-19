@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة الأرقام العالية الدقة</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: linear-gradient(145deg, #f7f9fc, #e9edf2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      padding: 1.5rem;
+      user-select: none;
+    }
+
+    button svg {
+      width: 18px;
+      display: flex;
+    }
+    
+    .calculator-card {
+      max-width: 750px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 48px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 
+                  inset 0 1px 2px rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.2s ease;
+    }
+    h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 1.8rem;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    h1 span {
+      background: #3b82f6;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      background: #2563eb;
+      box-shadow: 0 8px 14px -6px #2563eb60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: none;
+      height: 34px;
+      padding-top: 6px;
+    }
+    .input-area {
+      margin-bottom: 1.8rem;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 1.2rem 1.4rem;
+      font-size: 1.2rem;
+      font-family: 'JetBrains Mono', 'Cascadia Code', 'Courier New', monospace;
+      font-weight: 400;
+      background: #ffffffcc;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 2px solid #d1d9e6;
+      border-radius: 28px;
+      outline: none;
+      resize: vertical;
+      transition: 0.25s ease;
+      color: #0b1a33;
+      line-height: 1.8;
+      box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.03);
+      resize: none;
+      text-align: left;
+      direction: ltr;
+      scrollbar-color: #b9bcbe transparent;
+    }
+    textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px #3b82f620, inset 0 2px 8px rgba(0, 0, 0, 0.02);
+      background: #ffffff;
+    }
+    textarea::placeholder {
+      color: #9aa9bb;
+      font-weight: 400;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+    textarea:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 1.5rem 0 1.8rem;
+    }
+    .btn-primary {
+      background: #1e293b;
+      border: none;
+      padding: 0.9rem 2.8rem;
+      border-radius: 60px;
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 0 12px 22px -10px #0f172a60;
+      border: 1px solid #334155;
+      letter-spacing: 0.3px;
+      flex: 1 1 auto;
+      font-family: sans-serif;
+    }
+    .btn-primary:hover {
+      background: #0f172a;
+      transform: scale(1.02);
+      box-shadow: 0 16px 28px -8px #0f172a90;
+      border-color: #475569;
+    }
+    .btn-primary:active {
+      transform: scale(0.97);
+      background: #1e293b;
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .result-panel {
+      background: #ffffffea;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 32px;
+      padding: 1.4rem 1.8rem;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02), 0 10px 20px -12px #1e293b30;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 0.5rem;
+      margin-top: 0.2rem;
+    }
+    .result-label {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #475569;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .result-label i {
+      font-size: 1.2rem;
+    }
+    .result-number {
+      font-family: 'JetBrains Mono', 'Cascadia Code', 'Courier New', monospace;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: #0b1a33;
+      background: #f1f5f9;
+      padding: 0.2rem 1.2rem;
+      border-radius: 60px;
+      letter-spacing: 0.5px;
+      word-break: break-all;
+      flex: 1 1 auto;
+      min-width: 140px;
+      text-align: center;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
+      border: 1px solid #dce2ec;
+      direction: ltr;
+      user-select: text;
+    }
+    .copy-btn {
+      background: transparent;
+      border: 1.5px solid #cbd5e1;
+      padding: 0.5rem 1.5rem;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s ease;
+      background: #f8fafc;
+      box-shadow: 0 4px 8px -4px #00000010;
+      white-space: nowrap;
+    }
+    .copy-btn:hover {
+      background: #1e293b;
+      border-color: #1e293b;
+      color: white;
+      box-shadow: 0 8px 16px -8px #1e293b70;
+    }
+    .copy-btn:active {
+      transform: scale(0.94);
+    }
+    .copy-btn.copied {
+      background: #10b981;
+      border-color: #10b981;
+      color: white;
+    }
+    .hint {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 1.2rem;
+      text-align: center;
+      border-top: 1px dashed #d1d9e6;
+      padding-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .hint span {
+      position: relative;
+      background: #eef2f6;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-family: system-ui;
+      font-size: 0.85rem;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      border: 1px solid #0000;
+      height: 26px;
+      line-height: 0;
+      padding-bottom: 5px;
+      padding-right: 30px;
+    }
+    .hint span svg {
+      position: absolute;
+      top: 0;
+      right: 8px;
+      width: 16px;
+      display: flex;
+      margin: 4px 0;
+    }
+    .footer-note {
+      position: relative;
+      bottom: -16px;
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-align: center;
+      direction: rtl;
+    }
+    .notice-banner {
+      display: none;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 0.6rem 1rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      direction: rtl;
+    }
+    @media (max-width: 500px) {
+      body {
+        padding: 0;
+        height: 100vh;
+        background-color: white;
+      }
+      .result-label {
+        width: 100%;
+      }
+      .calculator-card {
+        padding: 1.8rem 1.2rem;
+        border-radius: 0;
+        box-shadow: none;
+        max-width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      textarea {
+        flex: 1 1;
+      }
+      .result-number {
+        font-size: 1.4rem;
+        min-width: 100px;
+        padding: 0.2rem 0.8rem;
+      }
+      .btn-primary {
+        padding: 0.8rem 1.8rem;
+        font-size: 1.1rem;
+        flex: 1 1 100%;
+      }
+      .input-area {
+        flex: 1 1;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .copy-btn {
+        padding: 0.4rem 1.2rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="calculator-card">
+  <h1>
+    <span>+</span> حاسبة الأرقام
+  </h1>
+
+  <!-- إشعار التجميع التلقائي -->
+  <div class="notice-banner" id="groupNotice"></div>
+
+  <!-- حقل الإدخال -->
+  <div class="input-area">
+    <textarea id="numberInput" placeholder="أدخل الأرقام هنا، كل رقم في سطر جديد&#10;مثال:&#10;1,000&#10;100&#10;370&#10;12,500.75&#10;-45.2">1,000
+100
+370</textarea>
+  </div>
+
+  <!-- زر الإظهار -->
+  <div class="action-row">
+    <button class="btn-primary" id="calculateBtn">اظهار المجموع</button>
+  </div>
+
+  <!-- لوحة النتيجة -->
+  <div class="result-panel" id="resultPanel">
+    <span class="result-label"><svg xmlns="http://www.w3.org/2000/svg" style="height: 20px;fill: #3bc6f6;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" viewBox="0 0 294 294" xml:space="preserve"> <g> <path d="M279,250H15c-8.284,0-15,6.716-15,15s6.716,15,15,15h264c8.284,0,15-6.716,15-15S287.284,250,279,250z"/> <path d="M30.5,228h47c5.247,0,9.5-4.253,9.5-9.5v-130c0-5.247-4.253-9.5-9.5-9.5h-47c-5.247,0-9.5,4.253-9.5,9.5v130   C21,223.747,25.253,228,30.5,228z"/> <path d="M123.5,228h47c5.247,0,9.5-4.253,9.5-9.5v-195c0-5.247-4.253-9.5-9.5-9.5h-47c-5.247,0-9.5,4.253-9.5,9.5v195   C114,223.747,118.253,228,123.5,228z"/> <path d="M216.5,228h47c5.247,0,9.5-4.253,9.5-9.5v-105c0-5.247-4.253-9.5-9.5-9.5h-47c-5.247,0-9.5,4.253-9.5,9.5v105   C207,223.747,211.253,228,216.5,228z"/> </g> </svg> المجموع الكلي</span>
+    <span class="result-number" id="totalResult">0</span>
+    <button class="copy-btn" id="copyBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ</button>
+  </div>
+
+  <!-- تلميحات و دقة عالية -->
+  <div class="hint">
+    <span style="background-color: #45b9ff29; border-color: #45b9ff6b;"><svg xmlns="http://www.w3.org/2000/svg" style="color: #009fff;" viewBox="0 0 512 512" class="ionicon"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M259.92 262.91 216.4 149.77a9 9 0 0 0-16.8 0l-43.52 113.14a9 9 0 0 1-5.17 5.17L37.77 311.6a9 9 0 0 0 0 16.8l113.14 43.52a9 9 0 0 1 5.17 5.17l43.52 113.14a9 9 0 0 0 16.8 0l43.52-113.14a9 9 0 0 1 5.17-5.17l113.14-43.52a9 9 0 0 0 0-16.8l-113.14-43.52a9 9 0 0 1-5.17-5.17M108 68 88 16 68 68 16 88l52 20 20 52 20-52 52-20zM426.67 117.33 400 48l-26.67 69.33L304 144l69.33 26.67L400 240l26.67-69.33L496 144z"/></svg> دقة عالية جداً</span>
+    <span style="background: #d682ff17; border-color: #d682ff5e;"><svg style="color: #d682ff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="m35.42 188.21 207.75 269.46a16.17 16.17 0 0 0 25.66 0l207.75-269.46a16.52 16.52 0 0 0 .95-18.75L407.06 55.71A16.22 16.22 0 0 0 393.27 48H118.73a16.22 16.22 0 0 0-13.79 7.71L34.47 169.46a16.52 16.52 0 0 0 .95 18.75M48 176h416"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="m400 64-48 112-96-128M112 64l48 112 96-128M256 448l-96-272M256 448l96-272"/></svg> يفهم الفواصل (1,000)</span>
+    <span style="border-color: #00970059; background: #00970014;"><svg style="color: green;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M256 112v288M400 256H112" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> يدعم الأعداد السالبة</span>
+    <span style="border-color: #ffb3009e;background: #ffb3001a;"><svg xmlns="http://www.w3.org/2000/svg" style="color: #ff8f00;" viewBox="0 0 512 512" class="ionicon"><path d="M315.27 33 96 304h128l-31.51 173.23a2.36 2.36 0 0 0 2.33 2.77h0a2.36 2.36 0 0 0 1.89-.95L416 208H288l31.66-173.25a2.45 2.45 0 0 0-2.44-2.75h0a2.42 2.42 0 0 0-1.95 1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> يتعامل مع الاف المبالغ</span>
+  </div>
+  <div class="footer-note">* يستخدم Decimal.js لأقصى دقة (عمليات حسابية آمنة) — عند لصق أكثر من 150 مبلغ لا تظهر الأرقام الخام أبداً، بل تظهر مباشرة مبالغ مجمّعة فقط (10 مبالغ عادةً، ويزداد العدد تلقائياً مع ملايين المبالغ)</div>
+  <br>
+  <a href="vov.html" style="margin: auto;display: block;width: max-content;">منشئ الأرقام</a>
+</div>
+
+<!-- تضمين مكتبة decimal.js (دقة عالية) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
+
+<script>
+  (function() {
+    "use strict";
+
+    // عناصر DOM
+    const textarea = document.getElementById('numberInput');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const totalResultSpan = document.getElementById('totalResult');
+    const copyBtn = document.getElementById('copyBtn');
+    const groupNotice = document.getElementById('groupNotice');
+
+    // ==== إعدادات التجميع التلقائي عند اللصق ====
+    const AUTO_GROUP_THRESHOLD = 150; // الحد الأدنى لعدد المبالغ لتفعيل التجميع
+    const AUTO_GROUP_COUNT = 10;      // عدد المجموعات الافتراضي (أقل من 100 مليون مبلغ)
+    const STEPS_PER_GROUP = 15;       // عدد خطوات الجمع داخل كل مجموعة (كانت 10 والآن 15)
+    const STEP_DELAY_MS = 1;          // التأخير (مللي ثانية) بين كل خطوة وأخرى
+
+    // === عتبات تحديد عدد المجموعات النهائية بناءً على عدد المبالغ الملصوقة ===
+    // يجب فحصها من الأكبر إلى الأصغر لأن كل عتبة أعلى تشمل ما بعدها
+    const GROUP_COUNT_TIERS = [
+      { min: 1000000000, groups: 35 }, // مليار مبلغ فأكثر => 35 مجموعة
+      { min: 500000000,  groups: 25 }, // 500 مليون مبلغ فأكثر => 25 مجموعة
+      { min: 100000000,  groups: 20 }  // 100 مليون مبلغ فأكثر => 20 مجموعة
+    ];
+
+    // --- دالة لتحديد عدد المجموعات المناسب حسب عدد المبالغ الملصوقة ---
+    function getGroupCountForAmount(count) {
+      for (let i = 0; i < GROUP_COUNT_TIERS.length; i++) {
+        if (count >= GROUP_COUNT_TIERS[i].min) {
+          return GROUP_COUNT_TIERS[i].groups;
+        }
+      }
+      // أقل من 100 مليون => العدد الافتراضي
+      return AUTO_GROUP_COUNT;
+    }
+
+    // --- دالة لتنسيق الرقم بفواصل آلافية ---
+    function formatNumberWithCommas(numberStr) {
+      // فصل الأجزاء الصحيحة والعشرية
+      const parts = numberStr.split('.');
+      let integerPart = parts[0];
+      const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+
+      // التعامل مع الأعداد السالبة
+      let isNegative = false;
+      if (integerPart.startsWith('-')) {
+        isNegative = true;
+        integerPart = integerPart.substring(1);
+      }
+
+      // إضافة الفواصل للجزء الصحيح
+      let formattedInteger = '';
+      let count = 0;
+      for (let i = integerPart.length - 1; i >= 0; i--) {
+        formattedInteger = integerPart[i] + formattedInteger;
+        count++;
+        if (count % 3 === 0 && i > 0) {
+          formattedInteger = ',' + formattedInteger;
+        }
+      }
+
+      // إضافة الإشارة السالبة إذا كانت موجودة
+      if (isNegative) {
+        formattedInteger = '-' + formattedInteger;
+      }
+
+      return formattedInteger + decimalPart;
+    }
+
+    // --- دالة لتنظيف وتحويل النص إلى أرقام (مع دعم الفواصل والأعداد السالبة) ---
+    function parseNumberList(text) {
+      if (!text || text.trim() === '') return [];
+
+      // تقسيم حسب الأسطر الجديدة، ثم تنظيف كل سطر
+      const lines = text.split(/\r?\n/);
+      const numbers = [];
+
+      for (let line of lines) {
+        let cleaned = line.trim();
+        if (cleaned === '') continue;
+
+        // إزالة المسافات الداخلية
+        cleaned = cleaned.replace(/\s/g, '');
+
+        // إزالة جميع الفواصل للتحويل إلى رقم
+        let numberStr = cleaned.replace(/,/g, '');
+
+        // التحقق من صحة التنسيق الرقمي
+        const isValidNumber = /^-?\d*\.?\d+$/.test(numberStr);
+        if (!isValidNumber) {
+          continue;
+        }
+
+        // استخدام Decimal للتحويل
+        try {
+          const decimal = new Decimal(numberStr);
+          if (!decimal.isFinite()) continue;
+          numbers.push(decimal);
+        } catch (e) {
+          continue;
+        }
+      }
+
+      return numbers;
+    }
+
+    // --- دالة حساب المجموع باستخدام Decimal ---
+    function calculateSum(decimalArray) {
+      if (!decimalArray || decimalArray.length === 0) {
+        return new Decimal(0);
+      }
+
+      let sum = new Decimal(0);
+      for (let dec of decimalArray) {
+        sum = sum.plus(dec);
+      }
+      return sum;
+    }
+
+    // --- دالة لإزالة الأصفار الزائدة من نتيجة Decimal وتحويلها لسلسلة قابلة للعرض ---
+    function decimalToDisplayString(decimalValue) {
+      let resultStr = decimalValue.toString();
+
+      // إزالة الأصفار الزائدة من الكسور العشرية
+      if (resultStr.includes('.') && resultStr.endsWith('0')) {
+        resultStr = resultStr.replace(/\.?0+$/, '');
+      }
+
+      return resultStr;
+    }
+
+    // --- دالة انتظار بسيطة تعتمد على Promise/setTimeout ---
+    function sleep(ms) {
+      return new Promise(function(resolve) {
+        setTimeout(resolve, ms);
+      });
+    }
+
+    // ==============================================================
+    // === تقسيم مصفوفة أرقام إلى (groupCount) نطاقات متساوية قدر ===
+    // === الإمكان (الفرق بين أكبر نطاق وأصغره لا يتجاوز عنصراً)  ===
+    // ==============================================================
+    function computeGroupBoundaries(total, groupCount) {
+      const baseSize = Math.floor(total / groupCount);
+      let remainder = total % groupCount;
+
+      const boundaries = [];
+      let idx = 0;
+      for (let g = 0; g < groupCount; g++) {
+        let size = baseSize + (remainder > 0 ? 1 : 0);
+        if (remainder > 0) remainder--;
+        boundaries.push([idx, idx + size]);
+        idx += size;
+      }
+      return boundaries;
+    }
+
+    // ==================================================================================
+    // === معالجة المجموعات بشكل تسلسلي: مجموعة تلو الأخرى، وكل مجموعة تُجمع        ===
+    // === على دفعات (stepsPerGroup خطوة) مع تأخير delayMs بين كل خطوتين             ===
+    // ==================================================================================
+    // onProgress(groupIndex, stepIndex, totalGroups, totalSteps) يُستدعى بعد كل خطوة لتحديث الواجهة
+    async function groupAndSumSequentially(decimalArray, groupCount, stepsPerGroup, delayMs, onProgress) {
+      const total = decimalArray.length;
+      if (total === 0) return [];
+
+      // لا تُقسّم إن كان عدد المبالغ أقل من أو يساوي عدد المجموعات المطلوبة
+      if (total <= groupCount) {
+        return decimalArray.map(function(d) { return d; });
+      }
+
+      const groupBoundaries = computeGroupBoundaries(total, groupCount);
+      const groupedSums = [];
+
+      // === معالجة كل مجموعة على حدة، الواحدة تلو الأخرى ===
+      for (let g = 0; g < groupBoundaries.length; g++) {
+        const start = groupBoundaries[g][0];
+        const end = groupBoundaries[g][1];
+        const groupSlice = decimalArray.slice(start, end);
+        const groupSize = groupSlice.length;
+
+        // تقسيم عناصر هذه المجموعة إلى (stepsPerGroup) دفعات صغيرة
+        const stepBoundaries = computeGroupBoundaries(groupSize, stepsPerGroup);
+
+        let runningSum = new Decimal(0);
+
+        // === تنفيذ كل خطوة من خطوات جمع هذه المجموعة على حدة ===
+        for (let s = 0; s < stepBoundaries.length; s++) {
+          const stepStart = stepBoundaries[s][0];
+          const stepEnd = stepBoundaries[s][1];
+          const stepChunk = groupSlice.slice(stepStart, stepEnd);
+
+          // جمع عناصر هذه الخطوة فقط وإضافتها للمجموع الجاري لهذه المجموعة
+          for (let k = 0; k < stepChunk.length; k++) {
+            runningSum = runningSum.plus(stepChunk[k]);
+          }
+
+          if (typeof onProgress === 'function') {
+            onProgress(g, s, groupBoundaries.length, stepBoundaries.length);
+          }
+
+          // انتظار 1 مللي ثانية قبل الانتقال إلى الخطوة التالية
+          await sleep(delayMs);
+        }
+
+        groupedSums.push(runningSum);
+      }
+
+      return groupedSums;
+    }
+
+    // --- عرض النتيجة مع التنسيق ---
+    function updateTotal() {
+      const rawText = textarea.value;
+      const numbers = parseNumberList(rawText);
+      const total = calculateSum(numbers);
+
+      // تنسيق الرقم بفواصل آلافية
+      const formattedResult = formatNumberWithCommas(decimalToDisplayString(total));
+
+      // عرض النتيجة المنسقة
+      totalResultSpan.textContent = formattedResult;
+    }
+
+    // --- إظهار إشعار (يبقى ظاهراً حتى استدعاء hideNotice أو مؤقت جديد) ---
+    function showNotice(message, autoHide) {
+      groupNotice.textContent = message;
+      groupNotice.style.display = 'block';
+      clearTimeout(showNotice._timer);
+      if (autoHide) {
+        showNotice._timer = setTimeout(() => {
+          groupNotice.style.display = 'none';
+        }, 4000);
+      }
+    }
+
+    function hideNotice() {
+      clearTimeout(showNotice._timer);
+      groupNotice.style.display = 'none';
+    }
+
+    // --- حدث الضغط على زر الحساب ---
+    calculateBtn.addEventListener('click', function(e) {
+      updateTotal();
+      // إزالة حالة "copied" من زر النسخ عند حساب جديد
+      copyBtn.classList.remove('copied');
+      copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
+    });
+
+    // --- حدث نسخ النتيجة ---
+    copyBtn.addEventListener('click', function() {
+      const resultText = totalResultSpan.textContent;
+      if (!resultText || resultText === '0') {
+        navigator.clipboard.writeText('0').then(() => {
+          copyBtn.classList.add('copied');
+          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M416 128 192 384l-96-96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> تم النسخ';
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
+          }, 2000);
+        }).catch(() => {
+          alert('لا يمكن نسخ الرقم، يرجى النسخ يدوياً.');
+        });
+        return;
+      }
+
+      navigator.clipboard.writeText(resultText).then(() => {
+        copyBtn.classList.add('copied');
+        copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M416 128 192 384l-96-96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> تم النسخ';
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
+        }, 2000);
+      }).catch(() => {
+        // في حال فشل Clipboard API (بيئة غير آمنة) نستخدم طريقة بديلة
+        try {
+          const tempInput = document.createElement('input');
+          tempInput.value = resultText;
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          copyBtn.classList.add('copied');
+          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M416 128 192 384l-96-96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> تم النسخ';
+          setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
+          }, 2000);
+        } catch (err) {
+          alert('تعذر نسخ الرقم، يمكنك نسخه يدوياً.');
+        }
+      });
+    });
+
+    // --- تشغيل الحساب تلقائياً عند تحميل الصفحة ---
+    setTimeout(() => {
+      updateTotal();
+    }, 100);
+
+    // --- دعم Ctrl+Enter لحساب سريع ---
+    textarea.addEventListener('keydown', function(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        calculateBtn.click();
+      }
+    });
+
+    // =====================================================
+    // === إضافة الفواصل الآلافية تلقائياً أثناء الكتابة ===
+    // =====================================================
+
+    // تنسيق سطر واحد (رقم واحد): إضافة فواصل للجزء الصحيح فقط
+    function formatLiveLine(line) {
+      const isNegative = line.startsWith('-');
+      let body = isNegative ? line.slice(1) : line;
+
+      // إزالة أي فواصل موجودة مسبقاً
+      body = body.replace(/,/g, '');
+
+      // فصل الجزء الصحيح عن الجزء العشري (أول نقطة فقط تُعتبر فاصلاً عشرياً)
+      const dotIndex = body.indexOf('.');
+      let integerPart = dotIndex === -1 ? body : body.slice(0, dotIndex);
+      let decimalPart = dotIndex === -1 ? '' : '.' + body.slice(dotIndex + 1).replace(/\D/g, '');
+
+      // إبقاء الأرقام فقط في الجزء الصحيح
+      integerPart = integerPart.replace(/\D/g, '');
+
+      // إضافة الفواصل كل 3 أرقام
+      const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+      return (isNegative ? '-' : '') + formattedInteger + decimalPart;
+    }
+
+    // تنسيق كامل نص المربع (كل سطر على حدة) مع الحفاظ على موضع المؤشر
+    function formatLiveText() {
+      const cursorPos = textarea.selectionStart;
+      const oldValue = textarea.value;
+
+      // عدد الخانات غير الفاصلة قبل موضع المؤشر (لإعادة تموضعه لاحقاً)
+      const nonCommaCountBeforeCursor = oldValue.slice(0, cursorPos).replace(/,/g, '').length;
+
+      const newValue = oldValue
+        .split('\n')
+        .map(formatLiveLine)
+        .join('\n');
+
+      if (newValue === oldValue) return; // لا حاجة لإعادة الكتابة إن لم يتغير شيء
+
+      textarea.value = newValue;
+
+      // إعادة حساب موضع المؤشر الجديد بعد إضافة/حذف الفواصل
+      let count = 0;
+      let newPos = newValue.length;
+      for (let i = 0; i < newValue.length; i++) {
+        if (newValue[i] !== ',') count++;
+        if (count === nonCommaCountBeforeCursor) {
+          newPos = i + 1;
+          break;
+        }
+      }
+      if (nonCommaCountBeforeCursor === 0) newPos = 0;
+
+      textarea.setSelectionRange(newPos, newPos);
+    }
+
+    // ==================================================================================
+    // === اعتراض عملية اللصق قبل حدوثها فعلياً داخل المربع (preventDefault)          ===
+    // === بحيث لا تظهر الأرقام الخام الملصوقة إطلاقاً عند تجاوز الحد المسموح،        ===
+    // === ويتم استبدالها مباشرة بالمبالغ المجمّعة فقط بعد اكتمال المعالجة            ===
+    // === عدد المجموعات يُحدَّد ديناميكياً حسب عدد المبالغ (انظر getGroupCountForAmount) ===
+    // ==================================================================================
+    let isProcessingGroups = false;
+
+    textarea.addEventListener('paste', function(e) {
+      const clipboardData = e.clipboardData || window.clipboardData;
+
+      // إن تعذّر الوصول لبيانات الحافظة (متصفح قديم جداً)، نترك السلوك الافتراضي كحل بديل
+      if (!clipboardData) return;
+
+      const pasteText = clipboardData.getData('text');
+      if (pasteText === null || pasteText === undefined) return;
+
+      // منع اللصق الافتراضي فوراً حتى لا تظهر الأرقام الخام في المربع مطلقاً
+      e.preventDefault();
+
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const oldValue = textarea.value;
+
+      // النص الناتج نظرياً لو تم اللصق بشكل طبيعي (لا يُعرض بعد، فقط للتحليل)
+      const mergedValue = oldValue.slice(0, start) + pasteText + oldValue.slice(end);
+      const parsedNumbers = parseNumberList(mergedValue);
+
+      // ===== الحالة الأولى: عدد المبالغ يتجاوز الحد => تجميع بدون إظهار أي رقم خام =====
+      if (parsedNumbers.length > AUTO_GROUP_THRESHOLD) {
+        if (isProcessingGroups) return; // تجنّب تشغيل معالجة متزامنة أخرى أثناء عمل حالية
+
+        isProcessingGroups = true;
+
+        // تحديد عدد المجموعات ديناميكياً حسب حجم البيانات الملصوقة
+        // < 100 مليون => 10 مجموعات
+        // >= 100 مليون => 20 مجموعة
+        // >= 500 مليون => 25 مجموعة
+        // >= مليار => 35 مجموعة
+        const groupCount = getGroupCountForAmount(parsedNumbers.length);
+
+        // إفراغ المربع فوراً؛ الأرقام الخام لا تُعرض إطلاقاً في أي لحظة
+        textarea.value = '';
+        textarea.disabled = true;
+        calculateBtn.disabled = true;
+
+        showNotice(
+          'جاري تجميع ' + parsedNumbers.length + ' مبلغاً إلى ' + groupCount + ' مبالغ...'
+        );
+
+        (async function() {
+          try {
+            const groupedSums = await groupAndSumSequentially(
+              parsedNumbers,
+              groupCount,
+              STEPS_PER_GROUP,
+              STEP_DELAY_MS,
+              function(groupIndex, stepIndex, totalGroups, totalSteps) {
+                showNotice(
+                  'معالجة المجموعة ' + (groupIndex + 1) + ' من ' + totalGroups +
+                  ' — الخطوة ' + (stepIndex + 1) + ' من ' + totalSteps
+                );
+              }
+            );
+
+            // تحويل كل مجموع إلى نص منسق بفواصل آلافية، سطر لكل مجموعة
+            const newText = groupedSums
+              .map(function(sumDecimal) {
+                return formatNumberWithCommas(decimalToDisplayString(sumDecimal));
+              })
+              .join('\n');
+
+            // أول ظهور لأي أرقام في المربع بعد اللصق هو المبالغ المجمّعة فقط
+            textarea.value = newText;
+            updateTotal();
+
+            showNotice(
+              'تم تجميع ' + parsedNumbers.length + ' مبلغاً تلقائياً إلى ' +
+              groupedSums.length + ' مبالغ (كل مبلغ هو مجموع مجموعته)',
+              true
+            );
+          } finally {
+            textarea.disabled = false;
+            calculateBtn.disabled = false;
+            isProcessingGroups = false;
+          }
+        })();
+
+        return;
+      }
+
+      // ===== الحالة الثانية: العدد 150 أو أقل => سلوك لصق طبيعي كالمعتاد =====
+      textarea.value = mergedValue;
+      const newCursorPos = start + pasteText.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+
+      // تطبيق تنسيق الفواصل الحية وتحديث المجموع كما لو كان إدخالاً عادياً
+      formatLiveText();
+      updateTotal();
+    });
+
+    // --- تحديث النتيجة عند تفريغ النص + تنسيق الفواصل أثناء الكتابة ---
+    let debounceTimer;
+    textarea.addEventListener('input', function() {
+      formatLiveText();
+
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        if (textarea.value.trim() === '') {
+          totalResultSpan.textContent = '0';
+        }
+      }, 300);
+    });
+
+  })();
+</script>
+</body>
+</html>
