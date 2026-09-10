@@ -1,861 +1,1911 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حاسبة الأرقام العالية الدقة</title>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عالم الأنمي والكرتون - Anime & Cartoon World</title>
+
+```
+<style>
+    /* ================================
+       CSS RESET & STYLES
+    ================================= */
+
     * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      background: linear-gradient(145deg, #f7f9fc, #e9edf2);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      padding: 1.5rem;
-      user-select: none;
-    }
-
-    button svg {
-      width: 18px;
-      display: flex;
-    }
-    
-    .calculator-card {
-      max-width: 750px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 48px;
-      padding: 2.5rem 2rem;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 
-                  inset 0 1px 2px rgba(255, 255, 255, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: all 0.2s ease;
-    }
-    h1 {
-      font-size: 1.9rem;
-      font-weight: 600;
-      color: #1e293b;
-      text-align: center;
-      margin-bottom: 1.8rem;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    h1 span {
-      background: #3b82f6;
-      color: white;
-      font-size: 1.5rem;
-      font-weight: 700;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      background: #2563eb;
-      box-shadow: 0 8px 14px -6px #2563eb60;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: none;
-      height: 34px;
-      padding-top: 6px;
-    }
-    .input-area {
-      margin-bottom: 1.8rem;
-    }
-    textarea {
-      width: 100%;
-      height: 200px;
-      padding: 1.2rem 1.4rem;
-      font-size: 1.2rem;
-      font-family: 'JetBrains Mono', 'Cascadia Code', 'Courier New', monospace;
-      font-weight: 400;
-      background: #ffffffcc;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 2px solid #d1d9e6;
-      border-radius: 28px;
-      outline: none;
-      resize: vertical;
-      transition: 0.25s ease;
-      color: #0b1a33;
-      line-height: 1.8;
-      box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.03);
-      resize: none;
-      text-align: left;
-      direction: ltr;
-      scrollbar-color: #b9bcbe transparent;
-    }
-    textarea:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 4px #3b82f620, inset 0 2px 8px rgba(0, 0, 0, 0.02);
-      background: #ffffff;
-    }
-    textarea::placeholder {
-      color: #9aa9bb;
-      font-weight: 400;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      font-size: 1rem;
-      opacity: 0.7;
-    }
-    textarea:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-    .action-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin: 1.5rem 0 1.8rem;
-    }
-    .btn-primary {
-      background: #1e293b;
-      border: none;
-      padding: 0.9rem 2.8rem;
-      border-radius: 60px;
-      color: white;
-      font-size: 1.25rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: 0.2s ease;
-      box-shadow: 0 12px 22px -10px #0f172a60;
-      border: 1px solid #334155;
-      letter-spacing: 0.3px;
-      flex: 1 1 auto;
-      font-family: sans-serif;
-    }
-    .btn-primary:hover {
-      background: #0f172a;
-      transform: scale(1.02);
-      box-shadow: 0 16px 28px -8px #0f172a90;
-      border-color: #475569;
-    }
-    .btn-primary:active {
-      transform: scale(0.97);
-      background: #1e293b;
-    }
-    .btn-primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .result-panel {
-      background: #ffffffea;
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border-radius: 32px;
-      padding: 1.4rem 1.8rem;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02), 0 10px 20px -12px #1e293b30;
-      border: 1px solid #e2e8f0;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem 0.5rem;
-      margin-top: 0.2rem;
-    }
-    .result-label {
-      font-size: 1rem;
-      font-weight: 500;
-      color: #475569;
-      letter-spacing: 0.3px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .result-label i {
-      font-size: 1.2rem;
-    }
-    .result-number {
-      font-family: 'JetBrains Mono', 'Cascadia Code', 'Courier New', monospace;
-      font-size: 1.9rem;
-      font-weight: 600;
-      color: #0b1a33;
-      background: #f1f5f9;
-      padding: 0.2rem 1.2rem;
-      border-radius: 60px;
-      letter-spacing: 0.5px;
-      word-break: break-all;
-      flex: 1 1 auto;
-      min-width: 140px;
-      text-align: center;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
-      border: 1px solid #dce2ec;
-      direction: ltr;
-      user-select: text;
-    }
-    .copy-btn {
-      background: transparent;
-      border: 1.5px solid #cbd5e1;
-      padding: 0.5rem 1.5rem;
-      border-radius: 60px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1e293b;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: 0.2s ease;
-      background: #f8fafc;
-      box-shadow: 0 4px 8px -4px #00000010;
-      white-space: nowrap;
-    }
-    .copy-btn:hover {
-      background: #1e293b;
-      border-color: #1e293b;
-      color: white;
-      box-shadow: 0 8px 16px -8px #1e293b70;
-    }
-    .copy-btn:active {
-      transform: scale(0.94);
-    }
-    .copy-btn.copied {
-      background: #10b981;
-      border-color: #10b981;
-      color: white;
-    }
-    .hint {
-      font-size: 0.9rem;
-      color: #64748b;
-      margin-top: 1.2rem;
-      text-align: center;
-      border-top: 1px dashed #d1d9e6;
-      padding-top: 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-    }
-    .hint span {
-      position: relative;
-      background: #eef2f6;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      font-family: system-ui;
-      font-size: 0.85rem;
-      color: #334155;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      border: 1px solid #0000;
-      height: 26px;
-      line-height: 0;
-      padding-bottom: 5px;
-      padding-right: 30px;
-    }
-    .hint span svg {
-      position: absolute;
-      top: 0;
-      right: 8px;
-      width: 16px;
-      display: flex;
-      margin: 4px 0;
-    }
-    .footer-note {
-      position: relative;
-      bottom: -16px;
-      margin-top: 0.8rem;
-      font-size: 0.8rem;
-      color: #94a3b8;
-      text-align: center;
-      direction: rtl;
-    }
-    .notice-banner {
-      display: none;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1d4ed8;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-align: center;
-      padding: 0.6rem 1rem;
-      border-radius: 20px;
-      margin-bottom: 1rem;
-      direction: rtl;
-    }
-    @media (max-width: 500px) {
-      body {
+        box-sizing: border-box;
+        margin: 0;
         padding: 0;
-        height: 100vh;
-        background-color: white;
-      }
-      .result-label {
-        width: 100%;
-      }
-      .calculator-card {
-        padding: 1.8rem 1.2rem;
-        border-radius: 0;
-        box-shadow: none;
-        max-width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      textarea {
-        flex: 1 1;
-      }
-      .result-number {
-        font-size: 1.4rem;
-        min-width: 100px;
-        padding: 0.2rem 0.8rem;
-      }
-      .btn-primary {
-        padding: 0.8rem 1.8rem;
-        font-size: 1.1rem;
-        flex: 1 1 100%;
-      }
-      .input-area {
-        flex: 1 1;
-        margin-bottom: 0;
-        display: flex;
-        flex-direction: column;
-      }
-      .copy-btn {
-        padding: 0.4rem 1.2rem;
-        font-size: 0.9rem;
-      }
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-  </style>
+
+    body {
+        background-color: #0f172a;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+
+    /* ================================
+       HEADER
+    ================================= */
+
+    header {
+        background-color: #1e293b;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #38bdf8;
+    }
+
+
+    /* ================================
+       SEARCH
+    ================================= */
+
+    .search-box {
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-box input {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        width: 250px;
+        background-color: #334155;
+        color: white;
+    }
+
+    .search-box button {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: none;
+        background-color: #0284c7;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .search-box button:hover {
+        background-color: #0369a1;
+    }
+
+
+    /* ================================
+       CONTAINER
+    ================================= */
+
+    .container {
+        max-width: 1200px;
+        width: 100%;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        flex: 1;
+    }
+
+    .section-title {
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        border-right: 4px solid #38bdf8;
+        padding-right: 10px;
+    }
+
+
+    /* ================================
+       ANIME GRID
+    ================================= */
+
+    .anime-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+
+
+    /* ================================
+       CARD
+    ================================= */
+
+    .card {
+        background-color: #1e293b;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+    }
+
+    .card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        background: #334155;
+    }
+
+    .card-info {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+
+    .card-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-rating {
+        font-size: 0.85rem;
+        color: #fbbf24;
+    }
+
+
+    /* ================================
+       MODAL
+    ================================= */
+
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.85);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+
+    .modal-content {
+        background-color: #1e293b;
+        padding: 1.5rem;
+        border-radius: 12px;
+        max-width: 900px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 8px;
+        left: 15px;
+        font-size: 2rem;
+        color: #fff;
+        cursor: pointer;
+        line-height: 1;
+        z-index: 10;
+    }
+
+
+    /* ================================
+       VIDEO
+    ================================= */
+
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        margin-top: 1rem;
+        background-color: #000;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .video-container iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+
+    /* ================================
+       PLAYER STATUS
+    ================================= */
+
+    .player-status {
+        margin-top: 12px;
+        padding: 12px 15px;
+        background: #0f172a;
+        border-radius: 8px;
+        color: #cbd5e1;
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+
+    .player-status strong {
+        color: #38bdf8;
+    }
+
+
+    /* ================================
+       TRAILER SECTION
+    ================================= */
+
+    .trailer-section {
+        margin-top: 1.5rem;
+    }
+
+    .trailer-title {
+        color: #38bdf8;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .trailer-btn {
+        background: #dc2626;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: 0.2s;
+    }
+
+    .trailer-btn:hover {
+        transform: translateY(-2px);
+        background: #b91c1c;
+    }
+
+    .trailer-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+
+    /* ================================
+       EPISODES SECTION
+    ================================= */
+
+    .episodes-section {
+        margin-top: 1.5rem;
+    }
+
+    .episodes-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .episodes-title {
+        font-size: 1.2rem;
+        color: #38bdf8;
+    }
+
+    .episodes-count {
+        background: #0284c7;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+    }
+
+    .episodes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+        max-height: 280px;
+        overflow-y: auto;
+        padding: 10px;
+        background: #0f172a;
+        border-radius: 8px;
+    }
+
+
+    /* ================================
+       EPISODE BUTTON
+    ================================= */
+
+    .ep-btn {
+        background-color: #334155;
+        color: white;
+        border: 2px solid transparent;
+        padding: 10px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        text-align: right;
+        transition: 0.2s;
+        overflow: hidden;
+    }
+
+    .ep-btn:hover {
+        background-color: #475569;
+    }
+
+    .ep-btn.active {
+        background-color: #0284c7;
+        border-color: #7dd3fc;
+        box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+    }
+
+    .ep-number {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .ep-name {
+        display: block;
+        font-size: 0.75rem;
+        color: #cbd5e1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    /* ================================
+       LOADER
+    ================================= */
+
+    .loader {
+        text-align: center;
+        font-size: 1.1rem;
+        grid-column: 1 / -1;
+        padding: 2rem;
+        color: #38bdf8;
+    }
+
+
+    /* ================================
+       LOAD MORE
+    ================================= */
+
+    .load-more-container {
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+    .load-more-btn {
+        padding: 0.8rem 2rem;
+        background-color: #0284c7;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .load-more-btn:hover {
+        background-color: #0369a1;
+    }
+
+    .load-more-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+
+    /* ================================
+       INFO MESSAGE
+    ================================= */
+
+    .info-message {
+        color: #aaa;
+        padding: 15px;
+        line-height: 1.7;
+        text-align: center;
+        grid-column: 1 / -1;
+    }
+
+
+    /* ================================
+       MOBILE
+    ================================= */
+
+    @media (max-width: 600px) {
+
+        header {
+            padding: 1rem;
+            flex-direction: column;
+        }
+
+        .search-box {
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+        }
+
+        .anime-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .card img {
+            height: 200px;
+        }
+
+        .modal-content {
+            padding: 1rem;
+        }
+
+        .episodes-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+    }
+
+</style>
+```
+
 </head>
+
 <body>
-<div class="calculator-card">
-  <h1>
-    <span>+</span> حاسبة الأرقام
-  </h1>
 
-  <!-- إشعار التجميع التلقائي -->
-  <div class="notice-banner" id="groupNotice"></div>
+```
+<!-- ================================
+     HEADER
+================================= -->
 
-  <!-- حقل الإدخال -->
-  <div class="input-area">
-    <textarea id="numberInput" placeholder="أدخل الأرقام هنا، كل رقم في سطر جديد&#10;مثال:&#10;1,000&#10;100&#10;370&#10;12,500.75&#10;-45.2">1,000
-100
-370</textarea>
-  </div>
+<header>
 
-  <!-- زر الإظهار -->
-  <div class="action-row">
-    <button class="btn-primary" id="calculateBtn">اظهار المجموع</button>
-  </div>
+    <div class="logo">
+        أنمي وكرتون HD
+    </div>
 
-  <!-- لوحة النتيجة -->
-  <div class="result-panel" id="resultPanel">
-    <span class="result-label"><svg xmlns="http://www.w3.org/2000/svg" style="height: 20px;fill: #3bc6f6;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" viewBox="0 0 294 294" xml:space="preserve"> <g> <path d="M279,250H15c-8.284,0-15,6.716-15,15s6.716,15,15,15h264c8.284,0,15-6.716,15-15S287.284,250,279,250z"/> <path d="M30.5,228h47c5.247,0,9.5-4.253,9.5-9.5v-130c0-5.247-4.253-9.5-9.5-9.5h-47c-5.247,0-9.5,4.253-9.5,9.5v130   C21,223.747,25.253,228,30.5,228z"/> <path d="M123.5,228h47c5.247,0,9.5-4.253,9.5-9.5v-195c0-5.247-4.253-9.5-9.5-9.5h-47c-5.247,0-9.5,4.253-9.5,9.5v195   C114,223.747,118.253,228,123.5,228z"/> <path d="M216.5,228h47c5.247,0,9.5-4.253,9.5-9.5v-105c0-5.247-4.253-9.5-9.5-9.5h-47c-5.247,0-9.5,4.253-9.5,9.5v105   C207,223.747,211.253,228,216.5,228z"/> </g> </svg> المجموع الكلي</span>
-    <span class="result-number" id="totalResult">0</span>
-    <button class="copy-btn" id="copyBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ</button>
-  </div>
+    <div class="search-box">
 
-  <!-- تلميحات و دقة عالية -->
-  <div class="hint">
-    <span style="background-color: #45b9ff29; border-color: #45b9ff6b;"><svg xmlns="http://www.w3.org/2000/svg" style="color: #009fff;" viewBox="0 0 512 512" class="ionicon"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M259.92 262.91 216.4 149.77a9 9 0 0 0-16.8 0l-43.52 113.14a9 9 0 0 1-5.17 5.17L37.77 311.6a9 9 0 0 0 0 16.8l113.14 43.52a9 9 0 0 1 5.17 5.17l43.52 113.14a9 9 0 0 0 16.8 0l43.52-113.14a9 9 0 0 1 5.17-5.17l113.14-43.52a9 9 0 0 0 0-16.8l-113.14-43.52a9 9 0 0 1-5.17-5.17M108 68 88 16 68 68 16 88l52 20 20 52 20-52 52-20zM426.67 117.33 400 48l-26.67 69.33L304 144l69.33 26.67L400 240l26.67-69.33L496 144z"/></svg> دقة عالية جداً</span>
-    <span style="background: #d682ff17; border-color: #d682ff5e;"><svg style="color: #d682ff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="m35.42 188.21 207.75 269.46a16.17 16.17 0 0 0 25.66 0l207.75-269.46a16.52 16.52 0 0 0 .95-18.75L407.06 55.71A16.22 16.22 0 0 0 393.27 48H118.73a16.22 16.22 0 0 0-13.79 7.71L34.47 169.46a16.52 16.52 0 0 0 .95 18.75M48 176h416"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="m400 64-48 112-96-128M112 64l48 112 96-128M256 448l-96-272M256 448l96-272"/></svg> يفهم الفواصل (1,000)</span>
-    <span style="border-color: #00970059; background: #00970014;"><svg style="color: green;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M256 112v288M400 256H112" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> يدعم الأعداد السالبة</span>
-    <span style="border-color: #ffb3009e;background: #ffb3001a;"><svg xmlns="http://www.w3.org/2000/svg" style="color: #ff8f00;" viewBox="0 0 512 512" class="ionicon"><path d="M315.27 33 96 304h128l-31.51 173.23a2.36 2.36 0 0 0 2.33 2.77h0a2.36 2.36 0 0 0 1.89-.95L416 208H288l31.66-173.25a2.45 2.45 0 0 0-2.44-2.75h0a2.42 2.42 0 0 0-1.95 1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> يتعامل مع الاف المبالغ</span>
-  </div>
-  <div class="footer-note">* يستخدم Decimal.js لأقصى دقة (عمليات حسابية آمنة) — عند لصق أكثر من 150 مبلغ لا تظهر الأرقام الخام أبداً، بل تظهر مباشرة مبالغ مجمّعة فقط (10 مبالغ عادةً، ويزداد العدد تلقائياً مع ملايين المبالغ)</div>
-  <br>
-  <a href="vov.html" style="margin: auto;display: block;width: max-content;">منشئ الأرقام</a>
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="ابحث عن أنمي أو كرتون..."
+        >
+
+        <button onclick="searchAnime()">
+            بحث
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- ================================
+     MAIN CONTENT
+================================= -->
+
+<div class="container">
+
+    <h2
+        class="section-title"
+        id="pageTitle"
+    >
+        أحدث الأنميات والكرتون
+    </h2>
+
+
+    <div
+        class="anime-grid"
+        id="animeGrid"
+    ></div>
+
+
+    <div
+        class="load-more-container"
+        id="loadMoreContainer"
+        style="display: none;"
+    >
+
+        <button
+            class="load-more-btn"
+            id="loadMoreBtn"
+            onclick="fetchNextPage()"
+        >
+            تحميل المزيد
+        </button>
+
+    </div>
+
 </div>
 
-<!-- تضمين مكتبة decimal.js (دقة عالية) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
+
+
+<!-- ================================
+     VIDEO MODAL
+================================= -->
+
+<div
+    class="modal"
+    id="videoModal"
+>
+
+    <div class="modal-content">
+
+
+        <!-- CLOSE -->
+
+        <span
+            class="close-btn"
+            onclick="closeModal()"
+            title="إغلاق"
+        >
+            &times;
+        </span>
+
+
+        <!-- TITLE -->
+
+        <h3 id="modalTitle">
+            اسم العرض
+        </h3>
+
+
+
+        <!-- VIDEO -->
+
+        <div class="video-container">
+
+            <iframe
+                id="videoPlayer"
+                src=""
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+
+        </div>
+
+
+
+        <!-- PLAYER STATUS -->
+
+        <div
+            class="player-status"
+            id="playerStatus"
+        >
+            اختر العرض الترويجي أو إحدى الحلقات.
+        </div>
+
+
+
+        <!-- SYNOPSIS -->
+
+        <p
+            id="modalSynopsis"
+            style="
+                margin-top: 15px;
+                font-size: 0.9rem;
+                color: #ccc;
+                max-height: 100px;
+                overflow-y: auto;
+                line-height: 1.8;
+            "
+        ></p>
+
+
+
+        <!-- ================================
+             TRAILER
+        ================================= -->
+
+        <div class="trailer-section">
+
+            <h4 class="trailer-title">
+                العرض الترويجي
+            </h4>
+
+            <button
+                class="trailer-btn"
+                id="trailerBtn"
+                onclick="playTrailer()"
+            >
+                ▶ تشغيل العرض الترويجي
+            </button>
+
+        </div>
+
+
+
+        <!-- ================================
+             EPISODES
+        ================================= -->
+
+        <div class="episodes-section">
+
+
+            <div class="episodes-header">
+
+                <h4 class="episodes-title">
+                    قائمة الحلقات
+                </h4>
+
+
+                <span
+                    class="episodes-count"
+                    id="episodesCount"
+                >
+                    جاري التحميل...
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="episodes-grid"
+                id="episodesGrid"
+            >
+
+                <div class="info-message">
+                    جاري تحميل الحلقات...
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================
+     JAVASCRIPT
+================================= -->
 
 <script>
-  (function() {
-    "use strict";
 
-    // عناصر DOM
-    const textarea = document.getElementById('numberInput');
-    const calculateBtn = document.getElementById('calculateBtn');
-    const totalResultSpan = document.getElementById('totalResult');
-    const copyBtn = document.getElementById('copyBtn');
-    const groupNotice = document.getElementById('groupNotice');
+    /* ================================
+       ELEMENTS
+    ================================= */
 
-    // ==== إعدادات التجميع التلقائي عند اللصق ====
-    const AUTO_GROUP_THRESHOLD = 150; // الحد الأدنى لعدد المبالغ لتفعيل التجميع
-    const AUTO_GROUP_COUNT = 10;      // عدد المجموعات الافتراضي (أقل من 100 مليون مبلغ)
-    const STEPS_PER_GROUP = 15;       // عدد خطوات الجمع داخل كل مجموعة (كانت 10 والآن 15)
-    const STEP_DELAY_MS = 1;          // التأخير (مللي ثانية) بين كل خطوة وأخرى
+    const animeGrid =
+        document.getElementById('animeGrid');
 
-    // === عتبات تحديد عدد المجموعات النهائية بناءً على عدد المبالغ الملصوقة ===
-    // يجب فحصها من الأكبر إلى الأصغر لأن كل عتبة أعلى تشمل ما بعدها
-    const GROUP_COUNT_TIERS = [
-      { min: 1000000000, groups: 35 }, // مليار مبلغ فأكثر => 35 مجموعة
-      { min: 500000000,  groups: 25 }, // 500 مليون مبلغ فأكثر => 25 مجموعة
-      { min: 100000000,  groups: 20 }  // 100 مليون مبلغ فأكثر => 20 مجموعة
-    ];
+    const searchInput =
+        document.getElementById('searchInput');
 
-    // --- دالة لتحديد عدد المجموعات المناسب حسب عدد المبالغ الملصوقة ---
-    function getGroupCountForAmount(count) {
-      for (let i = 0; i < GROUP_COUNT_TIERS.length; i++) {
-        if (count >= GROUP_COUNT_TIERS[i].min) {
-          return GROUP_COUNT_TIERS[i].groups;
-        }
-      }
-      // أقل من 100 مليون => العدد الافتراضي
-      return AUTO_GROUP_COUNT;
-    }
+    const videoModal =
+        document.getElementById('videoModal');
 
-    // --- دالة لتنسيق الرقم بفواصل آلافية ---
-    function formatNumberWithCommas(numberStr) {
-      // فصل الأجزاء الصحيحة والعشرية
-      const parts = numberStr.split('.');
-      let integerPart = parts[0];
-      const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+    const videoPlayer =
+        document.getElementById('videoPlayer');
 
-      // التعامل مع الأعداد السالبة
-      let isNegative = false;
-      if (integerPart.startsWith('-')) {
-        isNegative = true;
-        integerPart = integerPart.substring(1);
-      }
+    const modalTitle =
+        document.getElementById('modalTitle');
 
-      // إضافة الفواصل للجزء الصحيح
-      let formattedInteger = '';
-      let count = 0;
-      for (let i = integerPart.length - 1; i >= 0; i--) {
-        formattedInteger = integerPart[i] + formattedInteger;
-        count++;
-        if (count % 3 === 0 && i > 0) {
-          formattedInteger = ',' + formattedInteger;
-        }
-      }
+    const modalSynopsis =
+        document.getElementById('modalSynopsis');
 
-      // إضافة الإشارة السالبة إذا كانت موجودة
-      if (isNegative) {
-        formattedInteger = '-' + formattedInteger;
-      }
+    const episodesGrid =
+        document.getElementById('episodesGrid');
 
-      return formattedInteger + decimalPart;
-    }
+    const episodesCount =
+        document.getElementById('episodesCount');
 
-    // --- دالة لتنظيف وتحويل النص إلى أرقام (مع دعم الفواصل والأعداد السالبة) ---
-    function parseNumberList(text) {
-      if (!text || text.trim() === '') return [];
+    const loadMoreContainer =
+        document.getElementById('loadMoreContainer');
 
-      // تقسيم حسب الأسطر الجديدة، ثم تنظيف كل سطر
-      const lines = text.split(/\r?\n/);
-      const numbers = [];
+    const loadMoreBtn =
+        document.getElementById('loadMoreBtn');
 
-      for (let line of lines) {
-        let cleaned = line.trim();
-        if (cleaned === '') continue;
+    const playerStatus =
+        document.getElementById('playerStatus');
 
-        // إزالة المسافات الداخلية
-        cleaned = cleaned.replace(/\s/g, '');
+    const trailerBtn =
+        document.getElementById('trailerBtn');
 
-        // إزالة جميع الفواصل للتحويل إلى رقم
-        let numberStr = cleaned.replace(/,/g, '');
 
-        // التحقق من صحة التنسيق الرقمي
-        const isValidNumber = /^-?\d*\.?\d+$/.test(numberStr);
-        if (!isValidNumber) {
-          continue;
-        }
 
-        // استخدام Decimal للتحويل
-        try {
-          const decimal = new Decimal(numberStr);
-          if (!decimal.isFinite()) continue;
-          numbers.push(decimal);
-        } catch (e) {
-          continue;
-        }
-      }
+    /* ================================
+       VARIABLES
+    ================================= */
 
-      return numbers;
-    }
+    let currentPage = 1;
 
-    // --- دالة حساب المجموع باستخدام Decimal ---
-    function calculateSum(decimalArray) {
-      if (!decimalArray || decimalArray.length === 0) {
-        return new Decimal(0);
-      }
+    let isSearching = false;
 
-      let sum = new Decimal(0);
-      for (let dec of decimalArray) {
-        sum = sum.plus(dec);
-      }
-      return sum;
-    }
+    let isLoadingPage = false;
 
-    // --- دالة لإزالة الأصفار الزائدة من نتيجة Decimal وتحويلها لسلسلة قابلة للعرض ---
-    function decimalToDisplayString(decimalValue) {
-      let resultStr = decimalValue.toString();
+    let currentAnime = null;
 
-      // إزالة الأصفار الزائدة من الكسور العشرية
-      if (resultStr.includes('.') && resultStr.endsWith('0')) {
-        resultStr = resultStr.replace(/\.?0+$/, '');
-      }
+    let currentTrailerUrl = '';
 
-      return resultStr;
-    }
+    let currentEpisodes = [];
 
-    // --- دالة انتظار بسيطة تعتمد على Promise/setTimeout ---
-    function sleep(ms) {
-      return new Promise(function(resolve) {
-        setTimeout(resolve, ms);
-      });
-    }
+    let selectedEpisode = null;
 
-    // ==============================================================
-    // === تقسيم مصفوفة أرقام إلى (groupCount) نطاقات متساوية قدر ===
-    // === الإمكان (الفرق بين أكبر نطاق وأصغره لا يتجاوز عنصراً)  ===
-    // ==============================================================
-    function computeGroupBoundaries(total, groupCount) {
-      const baseSize = Math.floor(total / groupCount);
-      let remainder = total % groupCount;
 
-      const boundaries = [];
-      let idx = 0;
-      for (let g = 0; g < groupCount; g++) {
-        let size = baseSize + (remainder > 0 ? 1 : 0);
-        if (remainder > 0) remainder--;
-        boundaries.push([idx, idx + size]);
-        idx += size;
-      }
-      return boundaries;
-    }
 
-    // ==================================================================================
-    // === معالجة المجموعات بشكل تسلسلي: مجموعة تلو الأخرى، وكل مجموعة تُجمع        ===
-    // === على دفعات (stepsPerGroup خطوة) مع تأخير delayMs بين كل خطوتين             ===
-    // ==================================================================================
-    // onProgress(groupIndex, stepIndex, totalGroups, totalSteps) يُستدعى بعد كل خطوة لتحديث الواجهة
-    async function groupAndSumSequentially(decimalArray, groupCount, stepsPerGroup, delayMs, onProgress) {
-      const total = decimalArray.length;
-      if (total === 0) return [];
+    /* ================================
+       DELAY
+    ================================= */
 
-      // لا تُقسّم إن كان عدد المبالغ أقل من أو يساوي عدد المجموعات المطلوبة
-      if (total <= groupCount) {
-        return decimalArray.map(function(d) { return d; });
-      }
+    function delay(ms) {
 
-      const groupBoundaries = computeGroupBoundaries(total, groupCount);
-      const groupedSums = [];
+        return new Promise(resolve => {
 
-      // === معالجة كل مجموعة على حدة، الواحدة تلو الأخرى ===
-      for (let g = 0; g < groupBoundaries.length; g++) {
-        const start = groupBoundaries[g][0];
-        const end = groupBoundaries[g][1];
-        const groupSlice = decimalArray.slice(start, end);
-        const groupSize = groupSlice.length;
+            setTimeout(resolve, ms);
 
-        // تقسيم عناصر هذه المجموعة إلى (stepsPerGroup) دفعات صغيرة
-        const stepBoundaries = computeGroupBoundaries(groupSize, stepsPerGroup);
-
-        let runningSum = new Decimal(0);
-
-        // === تنفيذ كل خطوة من خطوات جمع هذه المجموعة على حدة ===
-        for (let s = 0; s < stepBoundaries.length; s++) {
-          const stepStart = stepBoundaries[s][0];
-          const stepEnd = stepBoundaries[s][1];
-          const stepChunk = groupSlice.slice(stepStart, stepEnd);
-
-          // جمع عناصر هذه الخطوة فقط وإضافتها للمجموع الجاري لهذه المجموعة
-          for (let k = 0; k < stepChunk.length; k++) {
-            runningSum = runningSum.plus(stepChunk[k]);
-          }
-
-          if (typeof onProgress === 'function') {
-            onProgress(g, s, groupBoundaries.length, stepBoundaries.length);
-          }
-
-          // انتظار 1 مللي ثانية قبل الانتقال إلى الخطوة التالية
-          await sleep(delayMs);
-        }
-
-        groupedSums.push(runningSum);
-      }
-
-      return groupedSums;
-    }
-
-    // --- عرض النتيجة مع التنسيق ---
-    function updateTotal() {
-      const rawText = textarea.value;
-      const numbers = parseNumberList(rawText);
-      const total = calculateSum(numbers);
-
-      // تنسيق الرقم بفواصل آلافية
-      const formattedResult = formatNumberWithCommas(decimalToDisplayString(total));
-
-      // عرض النتيجة المنسقة
-      totalResultSpan.textContent = formattedResult;
-    }
-
-    // --- إظهار إشعار (يبقى ظاهراً حتى استدعاء hideNotice أو مؤقت جديد) ---
-    function showNotice(message, autoHide) {
-      groupNotice.textContent = message;
-      groupNotice.style.display = 'block';
-      clearTimeout(showNotice._timer);
-      if (autoHide) {
-        showNotice._timer = setTimeout(() => {
-          groupNotice.style.display = 'none';
-        }, 4000);
-      }
-    }
-
-    function hideNotice() {
-      clearTimeout(showNotice._timer);
-      groupNotice.style.display = 'none';
-    }
-
-    // --- حدث الضغط على زر الحساب ---
-    calculateBtn.addEventListener('click', function(e) {
-      updateTotal();
-      // إزالة حالة "copied" من زر النسخ عند حساب جديد
-      copyBtn.classList.remove('copied');
-      copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
-    });
-
-    // --- حدث نسخ النتيجة ---
-    copyBtn.addEventListener('click', function() {
-      const resultText = totalResultSpan.textContent;
-      if (!resultText || resultText === '0') {
-        navigator.clipboard.writeText('0').then(() => {
-          copyBtn.classList.add('copied');
-          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M416 128 192 384l-96-96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> تم النسخ';
-          setTimeout(() => {
-            copyBtn.classList.remove('copied');
-            copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
-          }, 2000);
-        }).catch(() => {
-          alert('لا يمكن نسخ الرقم، يرجى النسخ يدوياً.');
         });
-        return;
-      }
 
-      navigator.clipboard.writeText(resultText).then(() => {
-        copyBtn.classList.add('copied');
-        copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M416 128 192 384l-96-96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> تم النسخ';
-        setTimeout(() => {
-          copyBtn.classList.remove('copied');
-          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
-        }, 2000);
-      }).catch(() => {
-        // في حال فشل Clipboard API (بيئة غير آمنة) نستخدم طريقة بديلة
-        try {
-          const tempInput = document.createElement('input');
-          tempInput.value = resultText;
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          document.execCommand('copy');
-          document.body.removeChild(tempInput);
-          copyBtn.classList.add('copied');
-          copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><path d="M416 128 192 384l-96-96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> تم النسخ';
-          setTimeout(() => {
-            copyBtn.classList.remove('copied');
-            copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="ionicon"><rect width="336" height="336" x="128" y="128" rx="57" ry="57" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32px"/><path d="m383.5 128 .5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32px"/></svg> نسخ';
-          }, 2000);
-        } catch (err) {
-          alert('تعذر نسخ الرقم، يمكنك نسخه يدوياً.');
-        }
-      });
-    });
-
-    // --- تشغيل الحساب تلقائياً عند تحميل الصفحة ---
-    setTimeout(() => {
-      updateTotal();
-    }, 100);
-
-    // --- دعم Ctrl+Enter لحساب سريع ---
-    textarea.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-        e.preventDefault();
-        calculateBtn.click();
-      }
-    });
-
-    // =====================================================
-    // === إضافة الفواصل الآلافية تلقائياً أثناء الكتابة ===
-    // =====================================================
-
-    // تنسيق سطر واحد (رقم واحد): إضافة فواصل للجزء الصحيح فقط
-    function formatLiveLine(line) {
-      const isNegative = line.startsWith('-');
-      let body = isNegative ? line.slice(1) : line;
-
-      // إزالة أي فواصل موجودة مسبقاً
-      body = body.replace(/,/g, '');
-
-      // فصل الجزء الصحيح عن الجزء العشري (أول نقطة فقط تُعتبر فاصلاً عشرياً)
-      const dotIndex = body.indexOf('.');
-      let integerPart = dotIndex === -1 ? body : body.slice(0, dotIndex);
-      let decimalPart = dotIndex === -1 ? '' : '.' + body.slice(dotIndex + 1).replace(/\D/g, '');
-
-      // إبقاء الأرقام فقط في الجزء الصحيح
-      integerPart = integerPart.replace(/\D/g, '');
-
-      // إضافة الفواصل كل 3 أرقام
-      const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-      return (isNegative ? '-' : '') + formattedInteger + decimalPart;
     }
 
-    // تنسيق كامل نص المربع (كل سطر على حدة) مع الحفاظ على موضع المؤشر
-    function formatLiveText() {
-      const cursorPos = textarea.selectionStart;
-      const oldValue = textarea.value;
 
-      // عدد الخانات غير الفاصلة قبل موضع المؤشر (لإعادة تموضعه لاحقاً)
-      const nonCommaCountBeforeCursor = oldValue.slice(0, cursorPos).replace(/,/g, '').length;
 
-      const newValue = oldValue
-        .split('\n')
-        .map(formatLiveLine)
-        .join('\n');
+    /* ================================
+       SAFE API FETCH
+       RATE LIMIT HANDLER
+    ================================= */
 
-      if (newValue === oldValue) return; // لا حاجة لإعادة الكتابة إن لم يتغير شيء
+    async function apiFetch(
+        url,
+        maxRetries = 5
+    ) {
 
-      textarea.value = newValue;
+        let attempt = 0;
 
-      // إعادة حساب موضع المؤشر الجديد بعد إضافة/حذف الفواصل
-      let count = 0;
-      let newPos = newValue.length;
-      for (let i = 0; i < newValue.length; i++) {
-        if (newValue[i] !== ',') count++;
-        if (count === nonCommaCountBeforeCursor) {
-          newPos = i + 1;
-          break;
+
+        while (attempt < maxRetries) {
+
+
+            try {
+
+
+                const response =
+                    await fetch(url);
+
+
+                /* ============================
+                   RATE LIMIT
+                ============================ */
+
+                if (response.status === 429) {
+
+
+                    const retryAfter =
+                        response.headers.get(
+                            'Retry-After'
+                        );
+
+
+                    const waitTime =
+                        retryAfter
+                            ? Number(retryAfter) * 1000
+                            : 2000 + (attempt * 1500);
+
+
+                    console.warn(
+                        `Rate Limit - محاولة ${attempt + 1}`
+                    );
+
+
+                    await delay(waitTime);
+
+
+                    attempt++;
+
+
+                    continue;
+
+                }
+
+
+                /* ============================
+                   OTHER ERROR
+                ============================ */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        `HTTP Error: ${response.status}`
+                    );
+
+                }
+
+
+                return await response.json();
+
+
+            }
+            catch (error) {
+
+
+                attempt++;
+
+
+                if (attempt >= maxRetries) {
+
+                    throw error;
+
+                }
+
+
+                await delay(
+                    1000 + (attempt * 1000)
+                );
+
+            }
+
+
         }
-      }
-      if (nonCommaCountBeforeCursor === 0) newPos = 0;
 
-      textarea.setSelectionRange(newPos, newPos);
-    }
 
-    // ==================================================================================
-    // === اعتراض عملية اللصق قبل حدوثها فعلياً داخل المربع (preventDefault)          ===
-    // === بحيث لا تظهر الأرقام الخام الملصوقة إطلاقاً عند تجاوز الحد المسموح،        ===
-    // === ويتم استبدالها مباشرة بالمبالغ المجمّعة فقط بعد اكتمال المعالجة            ===
-    // === عدد المجموعات يُحدَّد ديناميكياً حسب عدد المبالغ (انظر getGroupCountForAmount) ===
-    // ==================================================================================
-    let isProcessingGroups = false;
-
-    textarea.addEventListener('paste', function(e) {
-      const clipboardData = e.clipboardData || window.clipboardData;
-
-      // إن تعذّر الوصول لبيانات الحافظة (متصفح قديم جداً)، نترك السلوك الافتراضي كحل بديل
-      if (!clipboardData) return;
-
-      const pasteText = clipboardData.getData('text');
-      if (pasteText === null || pasteText === undefined) return;
-
-      // منع اللصق الافتراضي فوراً حتى لا تظهر الأرقام الخام في المربع مطلقاً
-      e.preventDefault();
-
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const oldValue = textarea.value;
-
-      // النص الناتج نظرياً لو تم اللصق بشكل طبيعي (لا يُعرض بعد، فقط للتحليل)
-      const mergedValue = oldValue.slice(0, start) + pasteText + oldValue.slice(end);
-      const parsedNumbers = parseNumberList(mergedValue);
-
-      // ===== الحالة الأولى: عدد المبالغ يتجاوز الحد => تجميع بدون إظهار أي رقم خام =====
-      if (parsedNumbers.length > AUTO_GROUP_THRESHOLD) {
-        if (isProcessingGroups) return; // تجنّب تشغيل معالجة متزامنة أخرى أثناء عمل حالية
-
-        isProcessingGroups = true;
-
-        // تحديد عدد المجموعات ديناميكياً حسب حجم البيانات الملصوقة
-        // < 100 مليون => 10 مجموعات
-        // >= 100 مليون => 20 مجموعة
-        // >= 500 مليون => 25 مجموعة
-        // >= مليار => 35 مجموعة
-        const groupCount = getGroupCountForAmount(parsedNumbers.length);
-
-        // إفراغ المربع فوراً؛ الأرقام الخام لا تُعرض إطلاقاً في أي لحظة
-        textarea.value = '';
-        textarea.disabled = true;
-        calculateBtn.disabled = true;
-
-        showNotice(
-          'جاري تجميع ' + parsedNumbers.length + ' مبلغاً إلى ' + groupCount + ' مبالغ...'
+        throw new Error(
+            'تعذر الاتصال بالخادم بعد عدة محاولات.'
         );
 
-        (async function() {
-          try {
-            const groupedSums = await groupAndSumSequentially(
-              parsedNumbers,
-              groupCount,
-              STEPS_PER_GROUP,
-              STEP_DELAY_MS,
-              function(groupIndex, stepIndex, totalGroups, totalSteps) {
-                showNotice(
-                  'معالجة المجموعة ' + (groupIndex + 1) + ' من ' + totalGroups +
-                  ' — الخطوة ' + (stepIndex + 1) + ' من ' + totalSteps
-                );
-              }
-            );
+    }
 
-            // تحويل كل مجموع إلى نص منسق بفواصل آلافية، سطر لكل مجموعة
-            const newText = groupedSums
-              .map(function(sumDecimal) {
-                return formatNumberWithCommas(decimalToDisplayString(sumDecimal));
-              })
-              .join('\n');
 
-            // أول ظهور لأي أرقام في المربع بعد اللصق هو المبالغ المجمّعة فقط
-            textarea.value = newText;
-            updateTotal();
 
-            showNotice(
-              'تم تجميع ' + parsedNumbers.length + ' مبلغاً تلقائياً إلى ' +
-              groupedSums.length + ' مبالغ (كل مبلغ هو مجموع مجموعته)',
-              true
-            );
-          } finally {
-            textarea.disabled = false;
-            calculateBtn.disabled = false;
-            isProcessingGroups = false;
-          }
-        })();
+    /* ================================
+       FETCH NEXT PAGE
+    ================================= */
 
-        return;
-      }
+    async function fetchNextPage() {
 
-      // ===== الحالة الثانية: العدد 150 أو أقل => سلوك لصق طبيعي كالمعتاد =====
-      textarea.value = mergedValue;
-      const newCursorPos = start + pasteText.length;
-      textarea.setSelectionRange(newCursorPos, newCursorPos);
 
-      // تطبيق تنسيق الفواصل الحية وتحديث المجموع كما لو كان إدخالاً عادياً
-      formatLiveText();
-      updateTotal();
-    });
+        if (isSearching) return;
 
-    // --- تحديث النتيجة عند تفريغ النص + تنسيق الفواصل أثناء الكتابة ---
-    let debounceTimer;
-    textarea.addEventListener('input', function() {
-      formatLiveText();
 
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        if (textarea.value.trim() === '') {
-          totalResultSpan.textContent = '0';
+        if (isLoadingPage) return;
+
+
+        isLoadingPage = true;
+
+
+        loadMoreBtn.disabled = true;
+
+
+        let loader =
+            document.getElementById('mainLoader');
+
+
+        if (!loader) {
+
+
+            loader =
+                document.createElement('div');
+
+
+            loader.id =
+                'mainLoader';
+
+
+            loader.className =
+                'loader';
+
+
+            loader.innerText =
+                'جاري تحميل الأنميات...';
+
+
+            animeGrid.appendChild(loader);
+
+
         }
-      }, 300);
-    });
 
-  })();
+
+
+        try {
+
+
+            const data =
+                await apiFetch(
+                    `https://api.jikan.moe/v4/top/anime?page=${currentPage}&limit=24`
+                );
+
+
+            if (loader) {
+
+                loader.remove();
+
+            }
+
+
+            if (
+                data.data &&
+                data.data.length > 0
+            ) {
+
+
+                appendAnimeCards(
+                    data.data
+                );
+
+
+                currentPage++;
+
+
+                loadMoreContainer.style.display =
+                    'block';
+
+
+            }
+            else {
+
+
+                loadMoreContainer.style.display =
+                    'none';
+
+
+            }
+
+
+        }
+        catch (error) {
+
+
+            console.error(
+                'Error fetching anime:',
+                error
+            );
+
+
+            if (loader) {
+
+
+                loader.innerText =
+                    'حدث خطأ أثناء جلب البيانات. حاول مرة أخرى لاحقاً.';
+
+
+            }
+
+
+        }
+        finally {
+
+
+            isLoadingPage = false;
+
+
+            loadMoreBtn.disabled = false;
+
+
+        }
+
+
+    }
+
+
+
+    /* ================================
+       APPEND ANIME CARDS
+    ================================= */
+
+    function appendAnimeCards(
+        animeList
+    ) {
+
+
+        animeList.forEach(anime => {
+
+
+            if (!anime) return;
+
+
+            const card =
+                document.createElement('div');
+
+
+            card.className =
+                'card';
+
+
+
+            const score =
+                anime.score
+                    ? `⭐ ${anime.score}`
+                    : 'غير مقيم';
+
+
+
+            const imageUrl =
+                anime.images?.jpg?.large_image_url ||
+                anime.images?.jpg?.image_url ||
+                'https://via.placeholder.com/300x450?text=No+Image';
+
+
+
+            const title =
+                anime.title_japanese ||
+                anime.title ||
+                'عنوان غير معروف';
+
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${imageUrl}"
+                    alt="${escapeHTML(title)}"
+                    loading="lazy"
+                >
+
+                <div class="card-info">
+
+                    <div
+                        class="card-title"
+                        title="${escapeHTML(title)}"
+                    >
+                        ${escapeHTML(title)}
+                    </div>
+
+                    <div class="card-rating">
+
+                        ${score}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+
+            card.addEventListener(
+                'click',
+                () => {
+
+                    openModal(anime);
+
+                }
+            );
+
+
+
+            animeGrid.appendChild(card);
+
+
+        });
+
+
+    }
+
+
+
+    /* ================================
+       ESCAPE HTML
+    ================================= */
+
+    function escapeHTML(value) {
+
+
+        const div =
+            document.createElement('div');
+
+
+        div.textContent =
+            value || '';
+
+
+        return div.innerHTML;
+
+
+    }
+
+
+
+    /* ================================
+       FETCH EPISODES
+    ================================= */
+
+    async function fetchEpisodes(
+        animeId
+    ) {
+
+
+        currentEpisodes = [];
+
+
+        selectedEpisode = null;
+
+
+        episodesGrid.innerHTML = `
+
+            <div class="info-message">
+
+                جاري جلب قائمة الحلقات...
+
+            </div>
+
+        `;
+
+
+        episodesCount.innerText =
+            'جاري التحميل...';
+
+
+
+        try {
+
+
+            const data =
+                await apiFetch(
+                    `https://api.jikan.moe/v4/anime/${animeId}/episodes`
+                );
+
+
+
+            episodesGrid.innerHTML = '';
+
+
+
+            if (
+                data.data &&
+                data.data.length > 0
+            ) {
+
+
+                currentEpisodes =
+                    data.data;
+
+
+
+                episodesCount.innerText =
+                    `${data.data.length} حلقة متاحة`;
+
+
+
+                data.data.forEach(
+                    episode => {
+
+
+                        createEpisodeButton(
+                            episode
+                        );
+
+
+                    }
+                );
+
+
+            }
+            else {
+
+
+                episodesCount.innerText =
+                    '0 حلقة';
+
+
+
+                episodesGrid.innerHTML = `
+
+                    <div class="info-message">
+
+                        لا توجد حلقات متاحة حالياً.
+
+                    </div>
+
+                `;
+
+
+            }
+
+
+        }
+        catch (error) {
+
+
+            console.error(
+                'Episodes Error:',
+                error
+            );
+
+
+            episodesCount.innerText =
+                'تعذر التحميل';
+
+
+
+            episodesGrid.innerHTML = `
+
+                <div class="info-message">
+
+                    تعذر جلب الحلقات حالياً.
+                    <br>
+                    يرجى المحاولة مرة أخرى لاحقاً.
+
+                </div>
+
+            `;
+
+
+        }
+
+
+    }
+
+
+
+    /* ================================
+       CREATE EPISODE BUTTON
+    ================================= */
+
+    function createEpisodeButton(
+        episode
+    ) {
+
+
+        const epBtn =
+            document.createElement('button');
+
+
+        epBtn.type =
+            'button';
+
+
+        epBtn.className =
+            'ep-btn';
+
+
+
+        const episodeNumber =
+            episode.mal_id ||
+            episode.number ||
+            '?';
+
+
+
+        const episodeTitle =
+            episode.title_romanji ||
+            episode.title ||
+            episode.title_japanese ||
+            'بدون عنوان';
+
+
+
+        epBtn.innerHTML = `
+
+            <span class="ep-number">
+
+                الحلقة ${episodeNumber}
+
+            </span>
+
+            <span
+                class="ep-name"
+                title="${escapeHTML(episodeTitle)}"
+            >
+
+                ${escapeHTML(episodeTitle)}
+
+            </span>
+
+        `;
+
+
+
+        epBtn.addEventListener(
+            'click',
+            () => {
+
+                selectEpisode(
+                    episode,
+                    epBtn
+                );
+
+            }
+        );
+
+
+
+        episodesGrid.appendChild(
+            epBtn
+        );
+
+
+    }
+
+
+
+    /* ================================
+       SELECT EPISODE
+    ================================= */
+
+    function selectEpisode(
+        episode,
+        selectedButton
+    ) {
+
+
+        document
+            .querySelectorAll('.ep-btn')
+            .forEach(button => {
+
+
+                button.classList.remove(
+                    'active'
+                );
+
+
+            });
+
+
+
+        selectedButton.classList.add(
+            'active'
+        );
+
+
+
+        selectedEpisode =
+            episode;
+
+
+
+        playEpisodeInfo(
+            episode
+        );
+
+
+    }
+
+
+
+    /* ================================
+       EPISODE INFORMATION
+    ================================= */
+
+    function playEpisodeInfo(
+        episode
+    ) {
+
+
+        /*
+            JIKAN API لا يوفر رابط فيديو للحلقة.
+
+            لذلك لا يتم تشغيل Trailer
+            عند الضغط على الحلقة.
+
+            يتم فصل العرض الترويجي
+            عن الحلقات بشكل كامل.
+        */
+
+
+        videoPlayer.src = '';
+
+
+
+        const episodeNumber =
+            episode.mal_id ||
+            episode.number ||
+            '?';
+
+
+
+        const episodeTitle =
+            episode.title_romanji ||
+            episode.title ||
+            episode.title_japanese ||
+            'بدون عنوان';
+
+
+
+        playerStatus.innerHTML = `
+
+            <strong>
+                تم اختيار الحلقة ${episodeNumber}
+            </strong>
+
+            <br>
+
+            ${escapeHTML(episodeTitle)}
+
+            <br><br>
+
+            تم تمييز الحلقة بنجاح.
+
+            <br>
+
+            مصدر البيانات الحالي يوفر
+            معلومات الحلقات فقط،
+            ولا يوفر رابط فيديو للحلقة.
+
+        `;
+
+
+    }
+
+
+
+    /* ================================
+       PLAY TRAILER
+    ================================= */
+
+    function playTrailer() {
+
+
+        if (!currentTrailerUrl) {
+
+
+            videoPlayer.src = '';
+
+
+            playerStatus.innerHTML = `
+
+                لا يوجد عرض ترويجي متاح
+                لهذا الأنمي.
+
+            `;
+
+
+            return;
+
+
+        }
+
+
+
+        videoPlayer.src =
+            currentTrailerUrl;
+
+
+
+        playerStatus.innerHTML = `
+
+            <strong>
+                يتم الآن تشغيل العرض الترويجي
+            </strong>
+
+            <br>
+
+            تم فصل العرض الترويجي
+            عن قائمة الحلقات.
+
+        `;
+
+
+
+        document
+            .querySelectorAll('.ep-btn')
+            .forEach(button => {
+
+
+                button.classList.remove(
+                    'active'
+                );
+
+
+            });
+
+
+
+        selectedEpisode = null;
+
+
+    }
+
+
+
+    /* ================================
+       OPEN MODAL
+    ================================= */
+
+    async function openModal(
+        anime
+    ) {
+
+
+        currentAnime =
+            anime;
+
+
+
+        currentTrailerUrl =
+            anime.trailer?.embed_url || '';
+
+
+
+        currentEpisodes =
+            [];
+
+
+        selectedEpisode =
+            null;
+
+
+
+        const title =
+            anime.title_japanese ||
+            anime.title ||
+            'عنوان غير معروف';
+
+
+
+        modalTitle.innerText =
+            title;
+
+
+
+        modalSynopsis.innerText =
+            anime.synopsis ||
+            'لا يوجد وصف متاح.';
+
+
+
+        videoPlayer.src = '';
+
+
+
+        if (currentTrailerUrl) {
+
+
+            trailerBtn.disabled =
+                false;
+
+
+
+            playerStatus.innerHTML = `
+
+                <strong>
+                    يوجد عرض ترويجي متاح
+                </strong>
+
+                <br>
+
+                اضغط على زر
+                "تشغيل العرض الترويجي"
+                للمشاهدة،
+                أو اختر حلقة من القائمة.
+
+            `;
+
+
+        }
+        else {
+
+
+            trailerBtn.disabled =
+                true;
+
+
+
+            playerStatus.innerHTML = `
+
+                لا يوجد عرض ترويجي متاح
+                لهذا الأنمي.
+
+                <br>
+
+                يمكنك استعراض قائمة الحلقات.
+
+            `;
+
+
+        }
+
+
+
+        episodesGrid.innerHTML = `
+
+            <div class="info-message">
+
+                جاري تحميل الحلقات...
+
+            </div>
+
+        `;
+
+
+
+        episodesCount.innerText =
+            'جاري التحميل...';
+
+
+
+        videoModal.style.display =
+            'flex';
+
+
+
+        await fetchEpisodes(
+            anime.mal_id
+        );
+
+
+    }
+
+
+
+    /* ================================
+       SEARCH ANIME
+    ================================= */
+
+    async function searchAnime() {
+
+
+        const query =
+            searchInput.value.trim();
+
+
+
+        if (!query) {
+
+
+            return;
+
+
+        }
+
+
+
+        isSearching =
+            true;
+
+
+
+        loadMoreContainer.style.display =
+            'none';
+
+
+
+        animeGrid.innerHTML = `
+
+            <div class="loader">
+
+                جاري البحث...
+
+            </div>
+
+        `;
+
+
+
+        try {
+
+
+            const data =
+                await apiFetch(
+                    `https://api.jikan.moe/v4/anime?q=${encodeURIComponent(query)}&limit=24`
+                );
+
+
+
+            animeGrid.innerHTML =
+                '';
+
+
+
+            document
+                .getElementById('pageTitle')
+                .innerText =
+                    `نتائج البحث عن: ${query}`;
+
+
+
+            if (
+                data.data &&
+                data.data.length > 0
+            ) {
+
+
+                appendAnimeCards(
+                    data.data
+                );
+
+
+            }
+            else {
+
+
+                animeGrid.innerHTML = `
+
+                    <div class="loader">
+
+                        لم يتم العثور على نتائج.
+
+                    </div>
+
+                `;
+
+
+            }
+
+
+        }
+        catch (error) {
+
+
+            console.error(
+                'Search Error:',
+                error
+            );
+
+
+
+            animeGrid.innerHTML = `
+
+                <div class="loader">
+
+                    حدث خطأ أثناء البحث.
+
+                    <br>
+
+                    حاول مرة أخرى لاحقاً.
+
+                </div>
+
+            `;
+
+
+        }
+        finally {
+
+
+            isSearching =
+                false;
+
+
+        }
+
+
+    }
+
+
+
+    /* ================================
+       ENTER SEARCH
+    ================================= */
+
+    searchInput.addEventListener(
+        'keydown',
+        function(event) {
+
+
+            if (
+                event.key === 'Enter'
+            ) {
+
+
+                searchAnime();
+
+
+            }
+
+
+        }
+    );
+
+
+
+    /* ================================
+       CLOSE MODAL
+    ================================= */
+
+    function closeModal() {
+
+
+        videoModal.style.display =
+            'none';
+
+
+
+        videoPlayer.src =
+            '';
+
+
+
+        currentAnime =
+            null;
+
+
+
+        currentTrailerUrl =
+            '';
+
+
+
+        currentEpisodes =
+            [];
+
+
+
+        selectedEpisode =
+            null;
+
+
+    }
+
+
+
+    /* ================================
+       CLOSE ON BACKGROUND
+    ================================= */
+
+    videoModal.addEventListener(
+        'click',
+        function(event) {
+
+
+            if (
+                event.target === videoModal
+            ) {
+
+
+                closeModal();
+
+
+            }
+
+
+        }
+    );
+
+
+
+    /* ================================
+       CLOSE ON ESCAPE
+    ================================= */
+
+    document.addEventListener(
+        'keydown',
+        function(event) {
+
+
+            if (
+                event.key === 'Escape' &&
+                videoModal.style.display === 'flex'
+            ) {
+
+
+                closeModal();
+
+
+            }
+
+
+        }
+    );
+
+
+
+    /* ================================
+       START
+    ================================= */
+
+    fetchNextPage();
+
+
 </script>
+```
+
 </body>
 </html>
