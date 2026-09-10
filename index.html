@@ -24,9 +24,7 @@
             min-height: 100vh;
         }
 
-        /* ================================
-           HEADER
-        ================================= */
+        /* HEADER */
         header {
             background-color: #1e293b;
             padding: 1rem 2rem;
@@ -46,9 +44,7 @@
             color: #38bdf8;
         }
 
-        /* ================================
-           SEARCH
-        ================================= */
+        /* SEARCH */
         .search-box {
             display: flex;
             gap: 10px;
@@ -78,9 +74,7 @@
             background-color: #0369a1;
         }
 
-        /* ================================
-           CONTAINER
-        ================================= */
+        /* CONTAINER */
         .container {
             max-width: 1200px;
             width: 100%;
@@ -96,18 +90,14 @@
             padding-right: 10px;
         }
 
-        /* ================================
-           ANIME GRID
-        ================================= */
+        /* ANIME GRID */
         .anime-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 1.5rem;
         }
 
-        /* ================================
-           CARD
-        ================================= */
+        /* CARD */
         .card {
             background-color: #1e293b;
             border-radius: 10px;
@@ -151,9 +141,7 @@
             color: #fbbf24;
         }
 
-        /* ================================
-           MODAL
-        ================================= */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -189,36 +177,42 @@
             z-index: 10;
         }
 
-        /* ================================
-           SERVERS SECTION
-        ================================= */
+        /* SERVERS LIST */
         .servers-section {
-            margin-top: 10px;
+            margin-top: 1rem;
             display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
             align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .servers-label {
+            font-size: 0.9rem;
+            color: #38bdf8;
+            font-weight: bold;
         }
 
         .server-btn {
-            background: #334155;
-            color: #fff;
-            border: 1px solid #475569;
-            padding: 6px 12px;
+            background-color: #334155;
+            color: white;
+            border: none;
+            padding: 6px 14px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             transition: 0.2s;
         }
 
-        .server-btn:hover, .server-btn.active {
-            background: #0284c7;
-            border-color: #38bdf8;
+        .server-btn:hover {
+            background-color: #475569;
         }
 
-        /* ================================
-           VIDEO
-        ================================= */
+        .server-btn.active {
+            background-color: #0284c7;
+            font-weight: bold;
+        }
+
+        /* VIDEO */
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -237,9 +231,7 @@
             border: none;
         }
 
-        /* ================================
-           PLAYER STATUS
-        ================================= */
+        /* PLAYER STATUS */
         .player-status {
             margin-top: 12px;
             padding: 12px 15px;
@@ -254,9 +246,7 @@
             color: #38bdf8;
         }
 
-        /* ================================
-           TRAILER SECTION
-        ================================= */
+        /* TRAILER SECTION */
         .trailer-section {
             margin-top: 1.5rem;
         }
@@ -289,9 +279,7 @@
             transform: none;
         }
 
-        /* ================================
-           EPISODES SECTION
-        ================================= */
+        /* EPISODES SECTION */
         .episodes-section {
             margin-top: 1.5rem;
         }
@@ -330,9 +318,7 @@
             border-radius: 8px;
         }
 
-        /* ================================
-           EPISODE BUTTON
-        ================================= */
+        /* EPISODE BUTTON */
         .ep-btn {
             background-color: #334155;
             color: white;
@@ -359,7 +345,7 @@
         .ep-number {
             display: block;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .ep-name {
@@ -371,9 +357,7 @@
             text-overflow: ellipsis;
         }
 
-        /* ================================
-           LOADER
-        ================================= */
+        /* LOADER & OTHERS */
         .loader {
             text-align: center;
             font-size: 1.1rem;
@@ -382,9 +366,31 @@
             color: #38bdf8;
         }
 
-        /* ================================
-           INFO MESSAGE
-        ================================= */
+        .load-more-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .load-more-btn {
+            padding: 0.8rem 2rem;
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background-color: #0369a1;
+        }
+
+        .load-more-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .info-message {
             color: #aaa;
             padding: 15px;
@@ -393,52 +399,21 @@
             grid-column: 1 / -1;
         }
 
-        /* ================================
-           MOBILE
-        ================================= */
         @media (max-width: 600px) {
-            header {
-                padding: 1rem;
-                flex-direction: column;
-            }
-
-            .search-box {
-                width: 100%;
-            }
-
-            .search-box input {
-                width: 100%;
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-
-            .anime-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 12px;
-            }
-
-            .card img {
-                height: 200px;
-            }
-
-            .modal-content {
-                padding: 1rem;
-            }
-
-            .episodes-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            header { padding: 1rem; flex-direction: column; }
+            .search-box { width: 100%; }
+            .search-box input { width: 100%; }
+            .section-title { font-size: 1.3rem; }
+            .anime-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .card img { height: 200px; }
+            .modal-content { padding: 1rem; }
+            .episodes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- ================================
-         HEADER
-    ================================= -->
     <header>
         <div class="logo">أنمي وكرتون HD</div>
         <div class="search-box">
@@ -447,39 +422,38 @@
         </div>
     </header>
 
-    <!-- ================================
-         MAIN CONTENT
-    ================================= -->
     <div class="container">
         <h2 class="section-title" id="pageTitle">أحدث الأنميات والكرتون</h2>
         <div class="anime-grid" id="animeGrid"></div>
+        <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+            <button class="load-more-btn" id="loadMoreBtn" onclick="fetchNextPage()">تحميل المزيد</button>
+        </div>
     </div>
 
-    <!-- ================================
-         VIDEO MODAL
-    ================================= -->
+    <!-- MODAL -->
     <div class="modal" id="videoModal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal()" title="إغلاق">&times;</span>
             <h3 id="modalTitle">اسم العرض</h3>
+
+            <!-- SERVERS -->
+            <div class="servers-section" id="serversSection" style="display: none;">
+                <span class="servers-label">سيرفر التشغيل:</span>
+                <button class="server-btn active" onclick="switchServer('vidsrc', this)">سيرفر 1 (Vidsrc)</button>
+                <button class="server-btn" onclick="switchServer('vidstream', this)">سيرفر 2 (VidStream)</button>
+                <button class="server-btn" onclick="switchServer('pro', this)">سيرفر 3 (Pro)</button>
+                <button class="server-btn" onclick="switchServer('embed', this)">سيرفر 4 (Embed)</button>
+            </div>
 
             <!-- VIDEO -->
             <div class="video-container">
                 <iframe id="videoPlayer" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
             </div>
 
-            <!-- SERVERS SELECTION -->
-            <div class="servers-section" id="serversSection" style="display: none;">
-                <span style="font-size: 0.85rem; color: #94a3b8;">سيرفرات المشاهدة:</span>
-                <button class="server-btn active" onclick="switchServer(1)">سيرفر 1 (Main)</button>
-                <button class="server-btn" onclick="switchServer(2)">سيرفر 2 (Fast)</button>
-                <button class="server-btn" onclick="switchServer(3)">سيرفر 3 (HD)</button>
+            <div class="player-status" id="playerStatus">
+                اختر العرض الترويجي أو إحدى الحلقات للمشاهدة.
             </div>
 
-            <!-- PLAYER STATUS -->
-            <div class="player-status" id="playerStatus">اختر العرض الترويجي أو إحدى الحلقات.</div>
-
-            <!-- SYNOPSIS -->
             <p id="modalSynopsis" style="margin-top: 15px; font-size: 0.9rem; color: #ccc; max-height: 100px; overflow-y: auto; line-height: 1.8;"></p>
 
             <!-- TRAILER -->
@@ -491,7 +465,7 @@
             <!-- EPISODES -->
             <div class="episodes-section">
                 <div class="episodes-header">
-                    <h4 class="episodes-title">قائمة الحلقات</h4>
+                    <h4 class="episodes-title">قائمة الحلقات الكاملة</h4>
                     <span class="episodes-count" id="episodesCount">جاري التحميل...</span>
                 </div>
                 <div class="episodes-grid" id="episodesGrid">
@@ -501,13 +475,7 @@
         </div>
     </div>
 
-    <!-- ================================
-         JAVASCRIPT
-    ================================= -->
     <script>
-        /* ================================
-           ELEMENTS
-        ================================= */
         const animeGrid = document.getElementById('animeGrid');
         const searchInput = document.getElementById('searchInput');
         const videoModal = document.getElementById('videoModal');
@@ -516,39 +484,25 @@
         const modalSynopsis = document.getElementById('modalSynopsis');
         const episodesGrid = document.getElementById('episodesGrid');
         const episodesCount = document.getElementById('episodesCount');
+        const loadMoreContainer = document.getElementById('loadMoreContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
         const playerStatus = document.getElementById('playerStatus');
         const trailerBtn = document.getElementById('trailerBtn');
         const serversSection = document.getElementById('serversSection');
 
-        /* ================================
-           VARIABLES & CONFIG
-        ================================= */
         let currentPage = 1;
         let isSearching = false;
-        let isLoadingBatch = false;
+        let isLoadingPage = false;
         let currentAnime = null;
         let currentTrailerUrl = '';
         let currentEpisodes = [];
         let selectedEpisode = null;
-        let selectedServer = 1;
-        
-        // Max limit & Auto-load batch config
-        const MAX_TOTAL_ITEMS = 600;
-        const BATCH_SIZE = 10;
-        const BATCH_DELAY_MS = 1000;
-        let loadedItemsBuffer = [];
-        let totalItemsRendered = 0;
+        let currentServerType = 'vidsrc';
 
-        /* ================================
-           DELAY FUNCTION
-        ================================= */
         function delay(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        /* ================================
-           SAFE API FETCH
-        ================================= */
         async function apiFetch(url, maxRetries = 5) {
             let attempt = 0;
             while (attempt < maxRetries) {
@@ -569,73 +523,49 @@
                     await delay(1000 + (attempt * 1000));
                 }
             }
-            throw new Error('تعذر الاتصال بالخادم بعد عدة محاولات.');
+            throw new Error('تعذر الاتصال بالخادم.');
         }
 
-        /* ================================
-           AUTO BATCH LOADER (10 by 10)
-        ================================= */
-        async function loadBatch() {
-            if (isSearching || isLoadingBatch || totalItemsRendered >= MAX_TOTAL_ITEMS) return;
-            isLoadingBatch = true;
+        async function fetchNextPage() {
+            if (isSearching || isLoadingPage) return;
+            isLoadingPage = true;
+            loadMoreBtn.disabled = true;
 
             let loader = document.getElementById('mainLoader');
             if (!loader) {
                 loader = document.createElement('div');
                 loader.id = 'mainLoader';
                 loader.className = 'loader';
-                loader.innerText = 'جاري تحميل 10 عناصر جديدة...';
+                loader.innerText = 'جاري تحميل الأنميات...';
                 animeGrid.appendChild(loader);
             }
 
             try {
-                // Fetch new page if buffer is empty
-                if (loadedItemsBuffer.length === 0) {
-                    const data = await apiFetch(`https://api.jikan.moe/v4/top/anime?page=${currentPage}&limit=25`);
-                    if (data.data && data.data.length > 0) {
-                        loadedItemsBuffer = data.data;
-                        currentPage++;
-                    }
-                }
-
+                const data = await apiFetch(`https://api.jikan.moe/v4/top/anime?page=${currentPage}&limit=24`);
                 if (loader) loader.remove();
 
-                if (loadedItemsBuffer.length > 0) {
-                    const batch = loadedItemsBuffer.splice(0, BATCH_SIZE);
-                    appendAnimeCards(batch);
-                    totalItemsRendered += batch.length;
-
-                    // 1 second delay between batch renders if more needed
-                    await delay(BATCH_DELAY_MS);
+                if (data.data && data.data.length > 0) {
+                    appendAnimeCards(data.data);
+                    currentPage++;
+                    loadMoreContainer.style.display = 'block';
+                } else {
+                    loadMoreContainer.style.display = 'none';
                 }
             } catch (error) {
-                console.error('Error fetching anime batch:', error);
-                if (loader) loader.innerText = 'حدث خطأ أثناء جلب البيانات.';
+                if (loader) loader.innerText = 'حدث خطأ أثناء جلب البيانات. حاول مرة أخرى لاحقاً.';
             } finally {
-                isLoadingBatch = false;
+                isLoadingPage = false;
+                loadMoreBtn.disabled = false;
             }
         }
 
-        /* ================================
-           INFINITE SCROLL HANDLER
-        ================================= */
-        window.addEventListener('scroll', () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-                loadBatch();
-            }
-        });
-
-        /* ================================
-           APPEND ANIME CARDS
-        ================================= */
         function appendAnimeCards(animeList) {
             animeList.forEach(anime => {
                 if (!anime) return;
                 const card = document.createElement('div');
                 card.className = 'card';
-
                 const score = anime.score ? `⭐ ${anime.score}` : 'غير مقيم';
-                const imageUrl = anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url || 'https://via.placeholder.com/300x450?text=No+Image';
+                const imageUrl = anime.images?.jpg?.large_image_url || anime.images?.jpg?.image_url || 'https://via.placeholder.com/300x450';
                 const title = anime.title_japanese || anime.title || 'عنوان غير معروف';
 
                 card.innerHTML = `
@@ -645,28 +575,22 @@
                         <div class="card-rating">${score}</div>
                     </div>
                 `;
-
                 card.addEventListener('click', () => openModal(anime));
                 animeGrid.appendChild(card);
             });
         }
 
-        /* ================================
-           ESCAPE HTML
-        ================================= */
         function escapeHTML(value) {
             const div = document.createElement('div');
             div.textContent = value || '';
             return div.innerHTML;
         }
 
-        /* ================================
-           FETCH ALL EPISODES (PAGINATED)
-        ================================= */
+        /* جلب كافة الحلقات من جميع الصفحات تلقائياً */
         async function fetchEpisodes(animeId) {
             currentEpisodes = [];
             selectedEpisode = null;
-            episodesGrid.innerHTML = `<div class="info-message">جاري جلب جميع الحلقات كاملاً...</div>`;
+            episodesGrid.innerHTML = `<div class="info-message">جاري جلب كافة الحلقات كاملة...</div>`;
             episodesCount.innerText = 'جاري التحميل...';
 
             try {
@@ -674,46 +598,39 @@
                 let hasNextPage = true;
                 let allEpisodes = [];
 
-                // Loop through all episode pages to ensure full episodes fetch
-                while (hasNextPage && page <= 10) { // Limit to 10 pages (~1000 episodes max safety)
+                while (hasNextPage) {
                     const data = await apiFetch(`https://api.jikan.moe/v4/anime/${animeId}/episodes?page=${page}`);
                     if (data.data && data.data.length > 0) {
                         allEpisodes = allEpisodes.concat(data.data);
-                        hasNextPage = data.pagination?.has_next_page || false;
+                        hasNextPage = data.pagination?.has_next_page;
                         page++;
-                        if (hasNextPage) await delay(300); // Small rate delay
+                        if (hasNextPage) await delay(400); // تجنب Rate Limit
                     } else {
                         hasNextPage = false;
                     }
                 }
 
                 episodesGrid.innerHTML = '';
-
                 if (allEpisodes.length > 0) {
                     currentEpisodes = allEpisodes;
                     episodesCount.innerText = `${allEpisodes.length} حلقة متاحة`;
                     allEpisodes.forEach(episode => createEpisodeButton(episode));
                 } else {
                     episodesCount.innerText = '0 حلقة';
-                    episodesGrid.innerHTML = `<div class="info-message">لا توجد حلقات متاحة حالياً.</div>`;
+                    episodesGrid.innerHTML = `<div class="info-message">لا توجد حلقات متاحة حالياً لهذا العرض.</div>`;
                 }
             } catch (error) {
-                console.error('Episodes Error:', error);
                 episodesCount.innerText = 'تعذر التحميل';
-                episodesGrid.innerHTML = `<div class="info-message">تعذر جلب الحلقات كاملة حالياً.</div>`;
+                episodesGrid.innerHTML = `<div class="info-message">تعذر جلب الحلقات حالياً.</div>`;
             }
         }
 
-        /* ================================
-           CREATE EPISODE BUTTON
-        ================================= */
         function createEpisodeButton(episode) {
             const epBtn = document.createElement('button');
             epBtn.type = 'button';
             epBtn.className = 'ep-btn';
-
             const episodeNumber = episode.mal_id || episode.number || '?';
-            const episodeTitle = episode.title_romanji || episode.title || episode.title_japanese || 'بدون عنوان';
+            const episodeTitle = episode.title_romanji || episode.title || `حلقة ${episodeNumber}`;
 
             epBtn.innerHTML = `
                 <span class="ep-number">الحلقة ${episodeNumber}</span>
@@ -724,111 +641,102 @@
             episodesGrid.appendChild(epBtn);
         }
 
-        /* ================================
-           SELECT & PLAY EPISODE
-        ================================= */
         function selectEpisode(episode, selectedButton) {
-            document.querySelectorAll('.ep-btn').forEach(button => button.classList.remove('active'));
+            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
             selectedButton.classList.add('active');
             selectedEpisode = episode;
             serversSection.style.display = 'flex';
-            playRealEpisode(episode, selectedServer);
+            playEpisodeStream(episode);
         }
 
-        /* ================================
-           REAL STREAMING PLAYER LOGIC
-        ================================= */
-        function playRealEpisode(episode, serverIndex) {
+        /* توليد رابط المشغل والتغشغيل الحقيقي */
+        function playEpisodeStream(episode) {
             const epNum = episode.mal_id || episode.number || 1;
-            const animeTitle = encodeURIComponent(currentAnime.title || '');
+            const animeTitle = encodeURIComponent(currentAnime.title_english || currentAnime.title);
             
-            // Public embed streaming sources mapping
             let streamUrl = '';
-            if (serverIndex === 1) {
-                streamUrl = `https://vidsrc.to/embed/anime/${currentAnime.mal_id}/${epNum}`;
-            } else if (serverIndex === 2) {
-                streamUrl = `https://embed.su/embed/anime/${currentAnime.mal_id}/${epNum}`;
-            } else {
-                streamUrl = `https://2embed.org/embed/anime/${currentAnime.mal_id}/${epNum}`;
+            
+            switch(currentServerType) {
+                case 'vidsrc':
+                    streamUrl = `https://vidsrc.to/embed/anime/${currentAnime.mal_id}/${epNum}`;
+                    break;
+                case 'vidstream':
+                    streamUrl = `https://anime-api.meta-api.xyz/embed/${animeTitle}/${epNum}`;
+                    break;
+                case 'pro':
+                    streamUrl = `https://vidsrc.pro/embed/anime/${currentAnime.mal_id}/${epNum}`;
+                    break;
+                case 'embed':
+                    streamUrl = `https://2embed.org/embed/anime/${currentAnime.mal_id}/${epNum}`;
+                    break;
             }
 
             videoPlayer.src = streamUrl;
 
             const episodeTitle = episode.title_romanji || episode.title || 'بدون عنوان';
             playerStatus.innerHTML = `
-                <strong>يتم الآن تشغيل الحلقة ${epNum} (سيرفر ${serverIndex})</strong><br>
-                ${escapeHTML(episodeTitle)}
+                <strong>جاري تشغيل الحلقة ${epNum}</strong> - ${escapeHTML(episodeTitle)}
+                <br>
+                <small style="color:#94a3b8">إذا لم يعمل السيرفر الحالي، يرجى اختيار سيرفر آخر من القائمة في الأعلى.</small>
             `;
         }
 
-        /* ================================
-           SWITCH SERVER
-        ================================= */
-        function switchServer(serverNum) {
-            selectedServer = serverNum;
-            document.querySelectorAll('.server-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx + 1 === serverNum);
-            });
+        function switchServer(serverType, btn) {
+            currentServerType = serverType;
+            document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
             if (selectedEpisode) {
-                playRealEpisode(selectedEpisode, selectedServer);
+                playEpisodeStream(selectedEpisode);
             }
         }
 
-        /* ================================
-           PLAY TRAILER
-        ================================= */
         function playTrailer() {
-            serversSection.style.display = 'none';
             if (!currentTrailerUrl) {
                 videoPlayer.src = '';
                 playerStatus.innerHTML = `لا يوجد عرض ترويجي متاح لهذا الأنمي.`;
                 return;
             }
-
+            serversSection.style.display = 'none';
             videoPlayer.src = currentTrailerUrl;
             playerStatus.innerHTML = `<strong>يتم الآن تشغيل العرض الترويجي</strong>`;
-            document.querySelectorAll('.ep-btn').forEach(button => button.classList.remove('active'));
+            document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
             selectedEpisode = null;
         }
 
-        /* ================================
-           OPEN MODAL
-        ================================= */
         async function openModal(anime) {
             currentAnime = anime;
             currentTrailerUrl = anime.trailer?.embed_url || '';
             currentEpisodes = [];
             selectedEpisode = null;
+            serversSection.style.display = 'none';
 
             const title = anime.title_japanese || anime.title || 'عنوان غير معروف';
             modalTitle.innerText = title;
             modalSynopsis.innerText = anime.synopsis || 'لا يوجد وصف متاح.';
             videoPlayer.src = '';
-            serversSection.style.display = 'none';
 
             if (currentTrailerUrl) {
                 trailerBtn.disabled = false;
-                playerStatus.innerHTML = `<strong>عرض متوفر:</strong> اختر حلقة للتشغيل المباشر أو انقر على العرض الترويجي.`;
+                playerStatus.innerHTML = `<strong>يوجد عرض ترويجي متاح</strong><br>اضغط على "تشغيل العرض الترويجي" أو اختر حلقة للمشاهدة المباشرة.`;
             } else {
                 trailerBtn.disabled = true;
-                playerStatus.innerHTML = `اختر حلقة من القائمة للمشاهدة.`;
+                playerStatus.innerHTML = `اختر إحدى الحلقات لبدء المشاهدة.`;
             }
 
-            episodesGrid.innerHTML = `<div class="info-message">جاري تحميل الحلقات...</div>`;
+            episodesGrid.innerHTML = `<div class="info-message">جاري تحميل كامل قائمة الحلقات...</div>`;
             episodesCount.innerText = 'جاري التحميل...';
             videoModal.style.display = 'flex';
 
             await fetchEpisodes(anime.mal_id);
         }
 
-        /* ================================
-           SEARCH ANIME
-        ================================= */
         async function searchAnime() {
             const query = searchInput.value.trim();
             if (!query) return;
 
             isSearching = true;
+            loadMoreContainer.style.display = 'none';
             animeGrid.innerHTML = `<div class="loader">جاري البحث...</div>`;
 
             try {
@@ -842,25 +750,16 @@
                     animeGrid.innerHTML = `<div class="loader">لم يتم العثور على نتائج.</div>`;
                 }
             } catch (error) {
-                console.error('Search Error:', error);
                 animeGrid.innerHTML = `<div class="loader">حدث خطأ أثناء البحث. حاول مرة أخرى لاحقاً.</div>`;
             } finally {
                 isSearching = false;
             }
         }
 
-        /* ================================
-           ENTER SEARCH EVENT
-        ================================= */
         searchInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                searchAnime();
-            }
+            if (event.key === 'Enter') searchAnime();
         });
 
-        /* ================================
-           CLOSE MODAL LOGIC
-        ================================= */
         function closeModal() {
             videoModal.style.display = 'none';
             videoPlayer.src = '';
@@ -875,15 +774,11 @@
         });
 
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && videoModal.style.display === 'flex') {
-                closeModal();
-            }
+            if (event.key === 'Escape' && videoModal.style.display === 'flex') closeModal();
         });
 
-        /* ================================
-           START INITIALIZATION
-        ================================= */
-        loadBatch();
+        fetchNextPage();
     </script>
+
 </body>
 </html>
