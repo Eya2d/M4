@@ -2,254 +2,168 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>تحميل كميات كبيرة من الصور</title>
+<title>إضافة فيديو يوتيوب</title>
 <style>
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+  
   body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: #1a1a2e;
-    color: #eee;
-    margin: 0;
-    padding: 20px;
+    background: #0f0f0f;
+    color: #fff;
+    padding: 30px;
+    max-width: 1000px;
+    margin: auto;
   }
-  .controls {
-    background: #16213e;
-    padding: 20px;
-    border-radius: 12px;
+
+  h2 { color: #ff0000; }
+
+  .input-box {
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    position: sticky;
-    top: 10px;
-    z-index: 100;
   }
-  label { font-weight: bold; }
-  input[type="number"] {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background: #0f3460;
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    background: #1e1e1e;
     color: #fff;
-    width: 120px;
-    font-size: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    direction: ltr;
   }
+
   button {
-    padding: 10px 22px;
-    border-radius: 8px;
-    border: none;
-    background: linear-gradient(135deg, #e94560, #f77f00);
+    background: #ff0000;
     color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    font-size: 15px;
-    transition: transform 0.2s, opacity 0.2s;
+    transition: 0.3s;
+    align-self: flex-start;
   }
-  button:hover:not(:disabled) { transform: scale(1.05); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  #stopBtn { background: linear-gradient(135deg, #555, #333); }
-  #clearBtn { background: linear-gradient(135deg, #0f3460, #533483); }
 
-  .stats {
+  button:hover { background: #cc0000; transform: scale(1.03); }
+  button:active { transform: scale(0.97); }
+
+  /* الديف الذي يعرض الفيديو */
+  #videoContainer {
+    margin-top: 20px;
+    width: 100%;
+    min-height: 100px;
+    background: #1a1a1a;
+    border: 2px dashed #444;
+    border-radius: 10px;
+    padding: 15px;
     display: flex;
-    gap: 20px;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 15px;
-    font-size: 15px;
-  }
-  .stats span { background: #16213e; padding: 8px 14px; border-radius: 8px; }
-  .progress-bar {
-    width: 100%;
-    height: 10px;
-    background: #16213e;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #e94560, #f77f00);
-    transition: width 0.2s;
+    gap: 15px;
   }
 
-  #gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 8px;
+  #videoContainer:empty::before {
+    content: "🎬 لم يتم إضافة أي فيديو بعد";
+    color: #888;
+    font-size: 16px;
   }
-  .img-card {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #16213e;
-    animation: fadeIn 0.4s ease;
+
+  #videoContainer iframe {
+    border-radius: 10px;
+    max-width: 100%;
   }
-  .img-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s;
-  }
-  .img-card:hover img { transform: scale(1.1); }
-  .img-card .idx {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.85); }
-    to { opacity: 1; transform: scale(1); }
+
+  .error {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 5px;
   }
 </style>
 </head>
 <body>
 
-<div class="controls">
-  <label for="count">عدد الصور:</label>
-  <input type="number" id="count" value="500" min="1" max="100000">
+  <h2>🎥 إضافة فيديو يوتيوب</h2>
 
-  <label for="batchSize">حجم الدفعة:</label>
-  <input type="number" id="batchSize" value="50" min="1" max="500">
+  <div class="input-box">
+    <label>الصق كود iframe المنسوخ من يوتيوب هنا:</label>
+    <textarea id="iframeInput" placeholder='<iframe width="933" height="525" src="https://www.youtube.com/embed/..." ...></iframe>'></textarea>
+    <button id="addBtn">➕ إضافة الفيديو</button>
+    <div id="errorMsg" class="error"></div>
+  </div>
 
-  <label for="delay">التأخير (ملي ثانية):</label>
-  <input type="number" id="delay" value="50" min="0" max="5000">
-
-  <button id="startBtn">إنشاء</button>
-  <button id="stopBtn" disabled>إيقاف</button>
-  <button id="clearBtn">مسح</button>
-</div>
-
-<div class="stats">
-  <span>المطلوب: <b id="statTotal">0</b></span>
-  <span>تم التحميل: <b id="statLoaded">0</b></span>
-  <span>الحالة: <b id="statStatus">جاهز</b></span>
-</div>
-
-<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-
-<div id="gallery"></div>
+  <!-- الديف الذي يتم عرض الفيديو بداخله -->
+  <div id="videoContainer"></div>
 
 <script>
-  const gallery    = document.getElementById('gallery');
-  const countInput = document.getElementById('count');
-  const batchInput = document.getElementById('batchSize');
-  const delayInput = document.getElementById('delay');
-  const startBtn   = document.getElementById('startBtn');
-  const stopBtn    = document.getElementById('stopBtn');
-  const clearBtn   = document.getElementById('clearBtn');
-  const statTotal  = document.getElementById('statTotal');
-  const statLoaded = document.getElementById('statLoaded');
-  const statStatus = document.getElementById('statStatus');
-  const progressFill = document.getElementById('progressFill');
+  const input     = document.getElementById('iframeInput');
+  const addBtn    = document.getElementById('addBtn');
+  const container = document.getElementById('videoContainer');
+  const errorMsg  = document.getElementById('errorMsg');
 
-  let stopped = false;
-  let running = false;
+  // دالة لتنظيف كود iframe والتحقق منه
+  function extractIframe(code) {
+    if (!code) return null;
 
-  // مصدر صور عشوائي - picsum.photos يعطي صورة مختلفة لكل seed
-  function getImageUrl(index) {
-    // نضيف seed عشوائي + رقم لضمان تنوع الصور
-    const seed = Math.floor(Math.random() * 1000000) + index;
-    return `https://picsum.photos/seed/${seed}/400/400`;
+    // استخراج وسم iframe فقط
+    const match = code.match(/<iframe[\s\S]*?<\/iframe>/i);
+    if (!match) return null;
+
+    let iframeCode = match[0];
+
+    // التحقق من أنه رابط يوتيوب
+    if (!/youtube\.com\/embed\//i.test(iframeCode)) return null;
+
+    // إجبار الفيديو على أن يكون متجاوباً
+    iframeCode = iframeCode
+      .replace(/width="[^"]*"/i, 'width="100%"')
+      .replace(/height="[^"]*"/i, 'height="500"');
+
+    return iframeCode;
   }
 
-  function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
+  addBtn.addEventListener('click', () => {
+    const raw = input.value.trim();
+    const clean = extractIframe(raw);
 
-  async function loadImages(total, batchSize, delay) {
-    running = true;
-    stopped = false;
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-    gallery.innerHTML = '';
-    statTotal.textContent = total;
-    statLoaded.textContent = '0';
-    statStatus.textContent = 'جارٍ التحميل...';
-    progressFill.style.width = '0%';
-
-    let loaded = 0;
-
-    for (let i = 0; i < total; i += batchSize) {
-      if (stopped) break;
-
-      const end = Math.min(i + batchSize, total);
-      const fragment = document.createDocumentFragment();
-
-      for (let j = i; j < end; j++) {
-        const card = document.createElement('div');
-        card.className = 'img-card';
-
-        const img = document.createElement('img');
-        img.loading = 'lazy';
-        img.src = getImageUrl(j);
-        img.alt = `صورة ${j + 1}`;
-        img.onerror = () => {
-          // في حال فشل التحميل نستبدلها بصورة بديلة
-          img.src = `https://picsum.photos/seed/fallback${j}/400/400`;
-        };
-
-        const idx = document.createElement('span');
-        idx.className = 'idx';
-        idx.textContent = j + 1;
-
-        card.appendChild(img);
-        card.appendChild(idx);
-        fragment.appendChild(card);
-      }
-
-      gallery.appendChild(fragment);
-      loaded = end;
-      statLoaded.textContent = loaded;
-      progressFill.style.width = ((loaded / total) * 100).toFixed(2) + '%';
-
-      // ننتظر فقط بين الدفعات وليس بعد الأخيرة
-      if (end < total && !stopped) {
-        await sleep(delay);
-      }
+    if (!clean) {
+      errorMsg.textContent = '⚠️ الرجاء لصق كود iframe صحيح من يوتيوب';
+      return;
     }
 
-    if (stopped) {
-      statStatus.textContent = `تم الإيقاف عند ${loaded}`;
-    } else {
-      statStatus.textContent = 'اكتمل ✅';
-      progressFill.style.width = '100%';
-    }
+    errorMsg.textContent = '';
 
-    running = false;
-    startBtn.disabled = false;
-    stopBtn.disabled = true;
-  }
+    // إنشاء عنصر لعرض الفيديو وزر حذفه
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'relative';
+    wrapper.style.width = '100%';
 
-  startBtn.addEventListener('click', () => {
-    if (running) return;
-    const total = Math.max(1, parseInt(countInput.value) || 1);
-    const batch = Math.max(1, parseInt(batchInput.value) || 50);
-    const delay = Math.max(0, parseInt(delayInput.value) || 0);
-    loadImages(total, batch, delay);
+    // إزالة أي iframe سابق (اختياري - احذف السطر التالي لو تريد إضافة أكثر من فيديو)
+    container.innerHTML = '';
+
+    wrapper.innerHTML = clean;
+
+    // زر حذف الفيديو
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '🗑️ حذف';
+    delBtn.style.cssText = 'margin-top:10px; background:#333; padding:8px 16px; font-size:13px;';
+    delBtn.onclick = () => wrapper.remove();
+
+    wrapper.appendChild(delBtn);
+    container.appendChild(wrapper);
+
+    // تفريغ الحقل بعد الإضافة
+    input.value = '';
   });
 
-  stopBtn.addEventListener('click', () => {
-    stopped = true;
-    statStatus.textContent = 'جارٍ الإيقاف...';
-  });
-
-  clearBtn.addEventListener('click', () => {
-    if (running) return;
-    gallery.innerHTML = '';
-    statLoaded.textContent = '0';
-    statTotal.textContent = '0';
-    statStatus.textContent = 'جاهز';
-    progressFill.style.width = '0%';
+  // إضافة بالفيديو عند الضغط على Ctrl + Enter داخل الحقل
+  input.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'Enter') addBtn.click();
   });
 </script>
 
