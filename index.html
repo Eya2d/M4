@@ -3,320 +3,374 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>مشغل فيديو يوتيوب بأسلوب الصورة المتحركة</title>
+<title>مكتبة فيديوهات يوتيوب</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script type="module" src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;600;700&family=Noto+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
   :root {
-    --bg: #0d1626;
-    --panel: #15233b;
-    --panel-2: #1b2d4a;
-    --line: #2a4066;
-    --text: #eef3fb;
-    --muted: #8fa3c4;
-    --accent: #3dd5f3;
-    --accent-ink: #062a33;
-    --danger: #ff6b81;
-    --radius: 16px;
+    --bg: #FAF9F5;
+    --surface: #FFFFFF;
+    --surface-2: #F0EEE6;
+    --text: #141413;
+    --muted: #5E5D59;
+    --border: #E8E6DC;
+    --accent: #D97757;
+    --accent-strong: #C6613F;
+    --accent-soft: #F6E6DE;
+    --danger: #B3402A;
+    --radius: 12px;
+    --serif: 'Noto Naskh Arabic', 'Amiri', Georgia, serif;
+    --sans: 'Noto Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
   }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #262624;
+      --surface: #30302E;
+      --surface-2: #3A3A37;
+      --text: #FAF9F5;
+      --muted: #B8B6AC;
+      --border: #44443F;
+      --accent-soft: #4A3128;
+      --danger: #F08A72;
+    }
+  }
+
   * { box-sizing: border-box; margin: 0; }
-  html { color-scheme: dark; }
+  html { -webkit-text-size-adjust: 100%; }
+
   body {
-    font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
-    background: radial-gradient(1200px 500px at 85% -10%, #1a3a63 0%, transparent 60%), var(--bg);
+    background: var(--bg);
     color: var(--text);
-    min-height: 100vh;
-    padding: 40px 20px 80px;
+    font-family: var(--sans);
+    font-size: 16px;
     line-height: 1.7;
+    min-height: 100vh;
   }
-  .wrap { max-width: 1080px; margin: auto; }
 
-  header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
-  .logo {
-    width: 54px; height: 54px; border-radius: 16px; flex: none;
-    display: grid; place-items: center; font-size: 30px;
-    background: var(--accent); color: var(--accent-ink);
+  .page { max-width: 1040px; margin: 0 auto; padding: 56px 24px 80px; }
+
+  /* Header */
+  .brand {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 28px;
   }
-  h1 { font-size: clamp(22px, 4vw, 32px); font-weight: 700; line-height: 1.3; }
-  header p { color: var(--muted); font-size: 15px; }
+  .brand-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--accent); color: #fff;
+    display: grid; place-items: center; font-size: 26px;
+  }
+  .brand span { font-weight: 600; font-size: 15px; color: var(--muted); }
 
+  h1 {
+    font-family: var(--serif);
+    font-size: 40px; line-height: 1.35; font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .lead { font-size: 18px; color: var(--muted); max-width: 60ch; margin-bottom: 36px; }
+
+  /* Input card */
   .composer {
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 20px; padding: 22px; display: grid; gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 48px;
+    box-shadow: 0 1px 2px rgba(20, 20, 19, 0.04);
   }
-  .composer label { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .composer label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 600; margin-bottom: 12px;
+  }
+  .composer label ion-icon { font-size: 20px; color: var(--accent-strong); }
+
   textarea {
-    width: 100%; min-height: 110px; resize: vertical; direction: ltr;
-    background: #0f1c31; color: var(--text); border: 1px solid var(--line);
-    border-radius: 12px; padding: 14px; font: 14px/1.6 ui-monospace, Consolas, monospace;
+    width: 100%; min-height: 128px; resize: vertical;
+    padding: 14px 16px;
+    background: var(--bg); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+    font-size: 14px; line-height: 1.6;
+    direction: ltr; text-align: left;
+    transition: border-color .15s, box-shadow .15s;
   }
-  textarea::placeholder { color: #566d92; }
-  textarea:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  textarea::placeholder { color: var(--muted); opacity: .7; }
+  textarea:focus {
+    outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
 
-  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .actions {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    margin-top: 16px;
+  }
+  .hint { font-size: 13px; color: var(--muted); margin-inline-start: auto; }
+  kbd {
+    font-family: var(--sans); font-size: 12px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 1px 6px;
+  }
+
   .btn {
-    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
-    background: var(--accent); color: var(--accent-ink); border: 0;
-    padding: 12px 22px; border-radius: 12px; font: 700 16px inherit; font-family: inherit;
-    transition: transform .15s, filter .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--sans); font-size: 15px; font-weight: 600;
+    padding: 10px 20px; border-radius: 10px;
+    border: 1px solid transparent; cursor: pointer;
+    transition: background .15s, border-color .15s, transform .1s;
   }
-  .btn:hover { filter: brightness(1.08); }
-  .btn:active { transform: scale(.97); }
-  .btn ion-icon { font-size: 22px; }
+  .btn ion-icon { font-size: 20px; }
+  .btn:active { transform: scale(0.98); }
+  .btn:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; }
 
-  .switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; color: var(--muted); font-size: 15px; user-select: none; }
-  .switch input { position: absolute; opacity: 0; }
-  .switch i {
-    width: 44px; height: 24px; border-radius: 99px; background: #2a4066; position: relative; transition: background .2s;
-  }
-  .switch i::after {
-    content: ""; position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%;
-    background: #fff; transition: transform .2s;
-  }
-  .switch input:checked + i { background: var(--accent); }
-  .switch input:checked + i::after { transform: translateX(-20px); }
-  .switch input:focus-visible + i { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-primary { background: var(--accent-strong); color: #fff; }
+  .btn-primary:hover { background: #B5553A; }
+  .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
+  .btn-ghost:hover { background: var(--surface-2); }
+  .btn-sm { padding: 6px 12px; font-size: 13px; border-radius: 8px; }
+  .btn-sm ion-icon { font-size: 17px; }
 
-  .error { color: var(--danger); font-size: 14px; display: none; align-items: center; gap: 6px; }
+  .error {
+    display: none; align-items: center; gap: 8px;
+    margin-top: 14px; padding: 10px 14px;
+    background: var(--accent-soft); color: var(--danger);
+    border-radius: 10px; font-size: 14px; font-weight: 500;
+  }
   .error.show { display: flex; }
+  .error ion-icon { font-size: 20px; flex-shrink: 0; }
+
+  /* Library */
+  .section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 20px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-size: 26px; font-weight: 600; line-height: 1.4;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .count {
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    background: var(--accent-soft); color: var(--accent-strong);
+    padding: 2px 10px; border-radius: 999px;
+  }
 
   .grid {
-    margin-top: 28px; display: grid; gap: 22px;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    display: grid; gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
   }
-  .grid:empty {
-    display: block; border: 2px dashed var(--line); border-radius: 20px;
-    padding: 60px 20px; text-align: center; color: var(--muted);
+  .grid:empty { display: none; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    animation: pop .25s ease-out;
   }
-  .grid:empty::before { content: "لا توجد فيديوهات بعد. الصق كود iframe من يوتيوب ثم اضغط إضافة."; }
+  @keyframes pop { from { opacity: 0; transform: scale(.98); } to { opacity: 1; transform: none; } }
 
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-  .stage { position: relative; background: #000; width: 100%; overflow: hidden; }
-  .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; transform: scale(1.04); }
-  .stage:fullscreen { aspect-ratio: auto !important; }
-  .cover { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .4s; }
-  .cover.hide { opacity: 0; pointer-events: none; }
-  .shield { position: absolute; inset: 0; cursor: pointer; }
+  .frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+  .frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
-  .bar {
-    position: absolute; inset-inline: 0; bottom: 0; direction: ltr; padding: 28px 14px 10px;
-    background: linear-gradient(transparent, rgba(5, 12, 24, .88));
-    opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s;
+  .card-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; padding: 12px 16px;
   }
-  .stage:hover .bar, .stage:focus-within .bar, .stage.paused .bar { opacity: 1; transform: none; }
-  .card.gif .bar { display: none; }
-  .row { display: flex; align-items: center; gap: 6px; }
-  .row .sp { flex: 1; }
-  .bar button {
-    display: inline-flex; align-items: center; gap: 4px; background: transparent; color: #fff; border: 0;
-    height: 36px; min-width: 36px; justify-content: center; border-radius: 10px; cursor: pointer; font: 600 13px inherit; font-family: inherit;
+  .card-foot .id {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted); direction: ltr;
   }
-  .bar button:hover { background: rgba(255, 255, 255, .16); }
-  .bar button.on { color: var(--accent); }
-  .bar ion-icon { font-size: 22px; }
-  .time { font-size: 13px; color: #d5e2f7; font-variant-numeric: tabular-nums; margin-inline: 6px; }
+  .card-foot .id ion-icon { font-size: 18px; color: var(--accent-strong); }
+  .btn-danger:hover { color: var(--danger); border-color: var(--danger); }
 
-  input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; height: 18px; }
-  input[type=range]::-webkit-slider-runnable-track { height: 5px; border-radius: 9px; background: linear-gradient(to right, var(--accent) var(--p, 0%), rgba(255,255,255,.28) var(--p, 0%)); }
-  input[type=range]::-moz-range-track { height: 5px; border-radius: 9px; background: rgba(255,255,255,.28); }
-  input[type=range]::-moz-range-progress { height: 5px; border-radius: 9px; background: var(--accent); }
-  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -4.5px; border-radius: 50%; background: #fff; border: 0; }
-  input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 0; }
-  .seek { width: 100%; }
-  .vol { width: 72px; }
-
-  .meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; }
-  .meta .id { color: var(--muted); font-size: 14px; display: flex; align-items: center; gap: 6px; direction: ltr; }
-  .meta .tools { display: flex; gap: 8px; }
-  .chip {
-    display: inline-flex; align-items: center; gap: 6px; background: var(--panel-2); color: var(--text);
-    border: 1px solid var(--line); border-radius: 10px; padding: 7px 12px; cursor: pointer; font: 500 14px inherit; font-family: inherit;
+  /* Empty state */
+  .empty {
+    display: none; flex-direction: column; align-items: center; text-align: center;
+    padding: 56px 24px; gap: 8px;
+    background: var(--surface); border: 1px dashed var(--border); border-radius: 16px;
   }
-  .chip:hover { border-color: var(--accent); }
-  .chip.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-  .chip.del:hover { border-color: var(--danger); color: var(--danger); }
+  .empty.show { display: flex; }
+  .empty ion-icon { font-size: 40px; color: var(--accent); }
+  .empty strong { font-size: 18px; font-weight: 600; }
+  .empty p { color: var(--muted); font-size: 15px; max-width: 42ch; }
 
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 600px) {
+    .page { padding: 32px 16px 56px; }
+    h1 { font-size: 30px; }
+    .lead { font-size: 16px; }
+    .hint { display: none; }
+    .btn-primary { flex: 1; justify-content: center; }
+  }
+  @media (prefers-reduced-motion: reduce) { .card { animation: none; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="logo"><ion-icon name="logo-youtube"></ion-icon></div>
-    <div>
-      <h1>مشغل يوتيوب بأسلوب الصورة المتحركة</h1>
-      <p>تشغيل تلقائي بدون صوت وتكرار مستمر، بدون أي أدوات من يوتيوب.</p>
-    </div>
-  </header>
 
-  <section class="composer">
-    <label for="iframeInput"><ion-icon name="code-slash-outline"></ion-icon> الصق كود iframe أو رابط الفيديو</label>
-    <textarea id="iframeInput" placeholder='<iframe width="933" height="525" src="https://www.youtube.com/embed/..." ...></iframe>'></textarea>
+<main class="page">
+  <div class="brand">
+    <div class="brand-icon"><ion-icon name="logo-youtube"></ion-icon></div>
+    <span>مكتبة الفيديو</span>
+  </div>
+
+  <h1>أضف فيديوهات يوتيوب إلى صفحتك</h1>
+  <p class="lead">الصق كود التضمين أو رابط الفيديو، وسيظهر مباشرة بحجم متجاوب يناسب كل الشاشات.</p>
+
+  <section class="composer" aria-label="إضافة فيديو">
+    <label for="iframeInput">
+      <ion-icon name="code-slash-outline"></ion-icon>
+      كود iframe أو رابط الفيديو
+    </label>
+    <textarea id="iframeInput" spellcheck="false"
+      placeholder='<iframe src="https://www.youtube.com/embed/..."></iframe>'></textarea>
+
     <div class="actions">
-      <button class="btn" id="addBtn"><ion-icon name="add-circle"></ion-icon> إضافة الفيديو</button>
-      <label class="switch">
-        <input type="checkbox" id="gifDefault" checked>
-        <i></i> وضع الصورة المتحركة للفيديوهات الجديدة
-      </label>
+      <button class="btn btn-primary" id="addBtn" type="button">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        إضافة الفيديو
+      </button>
+      <button class="btn btn-ghost" id="pasteBtn" type="button">
+        <ion-icon name="clipboard-outline"></ion-icon>
+        لصق من الحافظة
+      </button>
+      <span class="hint">أو اضغط <kbd>Ctrl</kbd> + <kbd>Enter</kbd></span>
     </div>
-    <div class="error" id="errorMsg"><ion-icon name="alert-circle"></ion-icon><span></span></div>
+
+    <div class="error" id="errorMsg" role="alert">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span id="errorText"></span>
+    </div>
   </section>
 
-  <main class="grid" id="videoContainer"></main>
-</div>
+  <section aria-label="الفيديوهات المضافة">
+    <div class="section-head">
+      <h2>
+        <ion-icon name="film-outline"></ion-icon>
+        الفيديوهات
+        <span class="count" id="count">0</span>
+      </h2>
+      <button class="btn btn-ghost btn-sm btn-danger" id="clearBtn" type="button" hidden>
+        <ion-icon name="trash-bin-outline"></ion-icon>
+        حذف الكل
+      </button>
+    </div>
+
+    <div class="grid" id="videoContainer"></div>
+
+    <div class="empty show" id="emptyState">
+      <ion-icon name="play-circle-outline"></ion-icon>
+      <strong>لا توجد فيديوهات بعد</strong>
+      <p>انسخ كود التضمين من يوتيوب عبر «مشاركة ← تضمين»، ثم الصقه في الحقل بالأعلى.</p>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
 
 <script>
-const $ = s => document.querySelector(s);
-const input = $('#iframeInput'), grid = $('#videoContainer'), err = $('#errorMsg');
-const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
-let apiReady = false, queue = [];
+  const input      = document.getElementById('iframeInput');
+  const addBtn     = document.getElementById('addBtn');
+  const pasteBtn   = document.getElementById('pasteBtn');
+  const clearBtn   = document.getElementById('clearBtn');
+  const container  = document.getElementById('videoContainer');
+  const emptyState = document.getElementById('emptyState');
+  const errorBox   = document.getElementById('errorMsg');
+  const errorText  = document.getElementById('errorText');
+  const countEl    = document.getElementById('count');
 
-window.onYouTubeIframeAPIReady = () => { apiReady = true; queue.forEach(f => f()); queue = []; };
-const s = document.createElement('script');
-s.src = 'https://www.youtube.com/iframe_api';
-document.head.appendChild(s);
-
-function parse(code) {
-  if (!code) return null;
-  const tag = code.match(/<iframe[\s\S]*?>/i);
-  const src = tag ? ((tag[0].match(/src=["']([^"']+)["']/i) || [])[1] || '') : code.trim();
-  const idm = src.match(/(?:embed\/|[?&]v=|youtu\.be\/|shorts\/)([\w-]{11})/);
-  if (!idm || !/youtube(-nocookie)?\.com|youtu\.be/i.test(src)) return null;
-  const st = src.match(/[?&](?:start|t)=(\d+)/);
-  let ratio = 16 / 9;
-  if (tag) {
-    const w = +(tag[0].match(/width=["']?(\d+)/i) || [])[1], h = +(tag[0].match(/height=["']?(\d+)/i) || [])[1];
-    if (w && h) ratio = w / h;
+  // استخراج معرّف الفيديو من كود iframe أو من رابط يوتيوب عادي
+  function extractVideoId(text) {
+    if (!text) return null;
+    const src = text.match(/src\s*=\s*["']([^"']+)["']/i);
+    const candidate = src ? src[1] : text.trim();
+    const m = candidate.match(
+      /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?(?:.*&)?v=|shorts\/)|youtu\.be\/)([\w-]{11})/i
+    );
+    return m ? m[1] : null;
   }
-  return { id: idm[1], start: st ? +st[1] : 0, ratio };
-}
 
-const fmt = t => { t = Math.max(0, Math.floor(t || 0)); return Math.floor(t / 60) + ':' + String(t % 60).padStart(2, '0'); };
-const fill = el => el.style.setProperty('--p', (el.value / el.max * 100) + '%');
-const icon = (btn, name) => btn.querySelector('ion-icon').setAttribute('name', name);
+  function showError(msg) {
+    errorText.textContent = msg;
+    errorBox.classList.add('show');
+  }
+  function hideError() { errorBox.classList.remove('show'); }
 
-function addVideo(info, gif) {
-  const card = document.createElement('article');
-  card.className = 'card' + (gif ? ' gif' : '');
-  card.innerHTML = `
-    <div class="stage paused" style="aspect-ratio:${info.ratio}">
-      <div class="yt"></div>
-      <img class="cover" src="https://i.ytimg.com/vi/${info.id}/hqdefault.jpg" alt="">
-      <div class="shield"></div>
-      <div class="bar">
-        <input class="seek" type="range" min="0" max="1000" value="0" aria-label="شريط التقدم">
-        <div class="row">
-          <button data-a="play" aria-label="تشغيل أو إيقاف"><ion-icon name="play"></ion-icon></button>
-          <button data-a="mute" aria-label="كتم الصوت"><ion-icon name="volume-mute"></ion-icon></button>
-          <input class="vol" type="range" min="0" max="100" value="100" aria-label="مستوى الصوت">
-          <span class="time">0:00 / 0:00</span>
-          <span class="sp"></span>
-          <button data-a="speed" aria-label="السرعة"><ion-icon name="speedometer-outline"></ion-icon><b>1x</b></button>
-          <button data-a="loop" class="on" aria-label="تكرار"><ion-icon name="repeat"></ion-icon></button>
-          <button data-a="full" aria-label="ملء الشاشة"><ion-icon name="expand"></ion-icon></button>
-        </div>
-      </div>
-    </div>
-    <div class="meta">
-      <span class="id"><ion-icon name="logo-youtube"></ion-icon>${info.id}</span>
-      <div class="tools">
-        <button class="chip ${gif ? 'on' : ''}" data-a="gif"><ion-icon name="images-outline"></ion-icon> GIF</button>
-        <button class="chip del" data-a="del"><ion-icon name="trash-outline"></ion-icon> حذف</button>
-      </div>
-    </div>`;
-  grid.appendChild(card);
+  // تحديث العدّاد والحالة الفارغة
+  function refresh() {
+    const n = container.children.length;
+    countEl.textContent = n;
+    emptyState.classList.toggle('show', n === 0);
+    clearBtn.hidden = n < 2;
+  }
 
-  const stage = card.querySelector('.stage'), cover = card.querySelector('.cover');
-  const seek = card.querySelector('.seek'), vol = card.querySelector('.vol'), time = card.querySelector('.time');
-  const b = a => card.querySelector(`[data-a="${a}"]`);
-  let player, loop = true, speedI = 2, timer;
+  function addVideo(id) {
+    const card = document.createElement('article');
+    card.className = 'card';
 
-  const build = () => {
-    const vars = {
-      controls: 0, disablekb: 1, fs: 0, modestbranding: 1, rel: 0, iv_load_policy: 3,
-      playsinline: 1, autoplay: 1, mute: 1, cc_load_policy: 0, start: info.start,
-      loop: 1, playlist: info.id
-    };
-    if (/^https?:/.test(location.protocol)) vars.origin = location.origin;
-    player = new YT.Player(card.querySelector('.yt'), {
-      videoId: info.id, playerVars: vars,
-      events: {
-        onReady: () => { player.mute(); player.playVideo(); sync(); timer = setInterval(sync, 250); },
-        onStateChange: e => {
-          const playing = e.data === 1;
-          if (playing) cover.classList.add('hide');
-          stage.classList.toggle('paused', !playing);
-          icon(b('play'), playing ? 'pause' : 'play');
-          if (e.data === 0 && loop) { player.seekTo(info.start, true); player.playVideo(); }
-        }
-      }
+    // بناء الـ iframe بشكل آمن من المعرّف فقط
+    const frame = document.createElement('div');
+    frame.className = 'frame';
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + id;
+    iframe.title = 'مشغّل فيديو يوتيوب';
+    iframe.loading = 'lazy';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.appendChild(iframe);
+
+    const foot = document.createElement('div');
+    foot.className = 'card-foot';
+    foot.innerHTML =
+      '<span class="id"><ion-icon name="logo-youtube"></ion-icon></span>' +
+      '<button class="btn btn-ghost btn-sm btn-danger" type="button">' +
+      '<ion-icon name="trash-outline"></ion-icon>حذف</button>';
+    foot.querySelector('.id').append(id);
+    foot.querySelector('button').addEventListener('click', () => {
+      card.remove();
+      refresh();
     });
-  };
-  apiReady ? build() : queue.push(build);
 
-  function sync() {
-    if (!player || !player.getDuration) return;
-    const d = player.getDuration(), t = player.getCurrentTime();
-    if (d) { if (!seek.matches(':active')) seek.value = t / d * 1000; fill(seek); }
-    time.textContent = fmt(t) + ' / ' + fmt(d);
-    const m = player.isMuted();
-    icon(b('mute'), m || !player.getVolume() ? 'volume-mute' : 'volume-high');
+    card.append(frame, foot);
+    container.prepend(card);
+    refresh();
   }
 
-  seek.addEventListener('input', () => { fill(seek); player.seekTo(seek.value / 1000 * player.getDuration(), true); });
-  vol.addEventListener('input', () => {
-    fill(vol); player.setVolume(vol.value);
-    if (+vol.value > 0 && player.isMuted()) player.unMute();
-  });
-  fill(vol);
-  card.querySelector('.shield').onclick = () => toggle();
-  const toggle = () => player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo();
+  function handleAdd() {
+    const id = extractVideoId(input.value);
+    if (!id) {
+      showError('الكود غير صالح. الصق كود iframe كاملاً أو رابط فيديو من يوتيوب.');
+      input.focus();
+      return;
+    }
+    hideError();
+    addVideo(id);
+    input.value = '';
+    input.focus();
+  }
 
-  card.addEventListener('click', e => {
-    const btn = e.target.closest('[data-a]'); if (!btn || !player) return;
-    switch (btn.dataset.a) {
-      case 'play': toggle(); break;
-      case 'mute': player.isMuted() ? player.unMute() : player.mute(); sync(); break;
-      case 'speed':
-        speedI = (speedI + 1) % SPEEDS.length;
-        player.setPlaybackRate(SPEEDS[speedI]);
-        btn.querySelector('b').textContent = SPEEDS[speedI] + 'x'; break;
-      case 'loop': loop = !loop; btn.classList.toggle('on', loop); break;
-      case 'full':
-        if (document.fullscreenElement) document.exitFullscreen();
-        else stage.requestFullscreen && stage.requestFullscreen();
-        break;
-      case 'gif': {
-        const on = card.classList.toggle('gif');
-        btn.classList.toggle('on', on);
-        if (on) { loop = true; b('loop').classList.add('on'); player.mute(); player.playVideo(); }
-        break;
-      }
-      case 'del':
-        clearInterval(timer);
-        player.destroy && player.destroy();
-        card.remove(); break;
+  addBtn.addEventListener('click', handleAdd);
+
+  input.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') handleAdd();
+  });
+  input.addEventListener('input', hideError);
+
+  pasteBtn.addEventListener('click', async () => {
+    try {
+      input.value = await navigator.clipboard.readText();
+      handleAdd();
+    } catch {
+      showError('تعذّر الوصول إلى الحافظة. الصق الكود يدوياً داخل الحقل.');
     }
   });
-  document.addEventListener('fullscreenchange', () => icon(b('full'), document.fullscreenElement === stage ? 'contract' : 'expand'));
-}
 
-function showError(msg) {
-  err.querySelector('span').textContent = msg;
-  err.classList.toggle('show', !!msg);
-}
+  clearBtn.addEventListener('click', () => {
+    container.innerHTML = '';
+    refresh();
+  });
 
-$('#addBtn').addEventListener('click', () => {
-  const info = parse(input.value.trim());
-  if (!info) return showError('الكود غير صحيح. الصق iframe أو رابط فيديو من يوتيوب.');
-  showError('');
-  addVideo(info, $('#gifDefault').checked);
-  input.value = '';
-});
-input.addEventListener('keydown', e => { if (e.ctrlKey && e.key === 'Enter') $('#addBtn').click(); });
+  refresh();
 </script>
 </body>
 </html>
